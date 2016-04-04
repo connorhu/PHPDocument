@@ -55,6 +55,8 @@ class Text extends AbstractElement
                     $xmlWriter->writeAttribute('text:style-name', 'P1');
                 } elseif (is_string($paragraphStyle)) {
                     $xmlWriter->writeAttribute('text:style-name', $paragraphStyle);
+                } elseif ($paragraphStyle instanceof \PhpOffice\PhpWord\Style\Paragraph) {
+                    $xmlWriter->writeAttribute('text:style-name', $paragraphStyle->getStyleName());
                 }
                 $xmlWriter->writeRaw($element->getText());
             } else {
