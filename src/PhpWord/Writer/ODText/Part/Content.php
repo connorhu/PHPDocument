@@ -202,7 +202,7 @@ class Content extends AbstractPart
             if ($element instanceof TextRun) {
                 $this->getContainerStyle($element, $paragraphStyleCount, $fontStyleCount);
             } elseif ($element instanceof Text) {
-                $this->getElementStyle($element, $paragraphStyleCount, $fontStyleCount);
+                // $this->getElementStyle($element, $paragraphStyleCount, $fontStyleCount);
             } elseif ($element instanceof Image) {
                 $style = $element->getStyle();
                 $style->setStyleName('fr' . $element->getMediaIndex());
