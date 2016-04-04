@@ -57,6 +57,11 @@ class Paragraph extends AbstractStyle
             $xmlWriter->writeAttribute('fo:text-align', $style->getAlignment());
         }
         $xmlWriter->endElement(); //style:paragraph-properties
+        
+        if ($style->getFont()) {
+            $writer = new \PhpOffice\PhpWord\Writer\ODText\Style\Font($xmlWriter, $style->getFont());
+            $writer->write();
+        }
 
         $xmlWriter->endElement(); //style:style
     }
