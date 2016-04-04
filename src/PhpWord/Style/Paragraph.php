@@ -158,6 +158,13 @@ class Paragraph extends Border
      * @var \PhpOffice\PhpWord\Style\Shading
      */
     private $shading;
+    
+    /**
+     * Font style
+     *
+     * @var \PhpOffice\PhpWord\Style\Font
+     */
+    private $font;
 
     /**
      * Create new instance
@@ -217,6 +224,7 @@ class Paragraph extends Border
             ),
             'tabs'              => $this->getTabs(),
             'shading'           => $this->getShading(),
+            'font'              => $this->getFont(),
         );
 
         return $styles;
@@ -702,6 +710,30 @@ class Paragraph extends Border
     public function setShading($value = null)
     {
         $this->setObjectVal($value, 'Shading', $this->shading);
+
+        return $this;
+    }
+
+    /**
+     * Get font
+     *
+     * @return \PhpOffice\PhpWord\Style\Font
+     */
+    public function getFont()
+    {
+        return $this->font;
+    }
+
+    /**
+     * Set shading
+     *
+     * @param mixed $value
+     * @return self
+     */
+    public function setFont($value = null)
+    {
+        $this->setObjectVal($value, 'Font', $this->font);
+        $this->font->setParagraph($this);
 
         return $this;
     }

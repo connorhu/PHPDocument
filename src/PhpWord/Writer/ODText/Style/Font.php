@@ -37,9 +37,13 @@ class Font extends AbstractStyle
         }
         $xmlWriter = $this->getXmlWriter();
 
-        $xmlWriter->startElement('style:style');
-        $xmlWriter->writeAttribute('style:name', $style->getStyleName());
-        $xmlWriter->writeAttribute('style:family', 'text');
+        $isParagraphFont = is_object($style->getParagraph()) && $style->getParagraph()->getFont() === $style;
+
+        if (!$isParagraphFont) {
+            $xmlWriter->startElement('style:style');
+            $xmlWriter->writeAttribute('style:name', $style->getStyleName());
+            $xmlWriter->writeAttribute('style:family', 'text');
+        }
         $xmlWriter->startElement('style:text-properties');
 
         // Name
@@ -86,6 +90,8 @@ class Font extends AbstractStyle
         // @todo Background color
 
         $xmlWriter->endElement(); // style:text-properties
-        $xmlWriter->endElement(); // style:style
+        if (!$isParagraphFont) {
+            $xmlWriter->endElement(); // style:style
+        }
     }
 }
