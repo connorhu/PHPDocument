@@ -18,6 +18,7 @@
 namespace PhpOffice\PhpWord\Style;
 
 use PhpOffice\PhpWord\SimpleType\LineSpacingRule;
+use PhpOffice\PhpWord\Shared\Converter;
 
 /**
  * Spacing between lines and above/below paragraph style
@@ -40,6 +41,20 @@ class Spacing extends AbstractStyle
      * @var int|float
      */
     private $after;
+
+    /**
+     * Spacing below paragraph (twip)
+     *
+     * @var int|float
+     */
+    private $below;
+
+    /**
+     * Spacing above paragraph (twip)
+     *
+     * @var int|float
+     */
+    private $abowe;
 
     /**
      * Spacing between lines in paragraph (twip)
@@ -78,12 +93,12 @@ class Spacing extends AbstractStyle
     /**
      * Set before
      *
-     * @param int|float $value
+     * @param mixed $value
      * @return self
      */
     public function setBefore($value = null)
     {
-        $this->before = $this->setNumericVal($value, $this->before);
+        $this->before = $this->setNumericVal(Converter::autoConvertTo($value, 'twip'), $this->before);
 
         return $this;
     }
@@ -101,12 +116,58 @@ class Spacing extends AbstractStyle
     /**
      * Set after
      *
-     * @param int|float $value
+     * @param mixed $value
      * @return self
      */
     public function setAfter($value = null)
     {
-        $this->after = $this->setNumericVal($value, $this->after);
+        $this->after = $this->setNumericVal(Converter::autoConvertTo($value, 'twip'), $this->after);
+
+        return $this;
+    }
+
+    /**
+     * Get below
+     *
+     * @return int|float
+     */
+    public function getBelow()
+    {
+        return $this->below;
+    }
+
+    /**
+     * Set below
+     *
+     * @param mixed $value
+     * @return self
+     */
+    public function setBelow($value = null)
+    {
+        $this->below = $this->setNumericVal(Converter::autoConvertTo($value, 'twip'), $this->below);
+
+        return $this;
+    }
+
+    /**
+     * Get above
+     *
+     * @return int|float
+     */
+    public function getAbove()
+    {
+        return $this->above;
+    }
+
+    /**
+     * Set above
+     *
+     * @param mixed $value
+     * @return self
+     */
+    public function setAbove($value = null)
+    {
+        $this->above = $this->setNumericVal(Converter::autoConvertTo($value, 'twip'), $this->above);
 
         return $this;
     }

@@ -21,6 +21,7 @@ use PhpOffice\Common\Text;
 use PhpOffice\PhpWord\Exception\InvalidStyleException;
 use PhpOffice\PhpWord\SimpleType\Jc;
 use PhpOffice\PhpWord\SimpleType\TextAlignment;
+use PhpOffice\PhpWord\Shared\Converter;
 
 /**
  * Paragraph style
@@ -219,9 +220,14 @@ class Paragraph extends Border
     {
         $key = Text::removeUnderscorePrefix($key);
         if ('indent' == $key || 'hanging' == $key) {
-            $value = $value * 720;
+            if (is_string($value)) {
+                $value = Converter::autoConvertTo($value, 'twip');
+            }
+            else {
+                $value = $value * 720;
+            }
         }
-
+        
         return parent::setStyleValue($key, $value);
     }
 
@@ -260,7 +266,7 @@ class Paragraph extends Border
             'bidi'                => $this->isBidi(),
             'textAlignment'       => $this->getTextAlignment(),
             'suppressAutoHyphens' => $this->hasSuppressAutoHyphens(),
-            'font'              => $this->getFont(),
+            'font'                => $this->getFont(),
         );
 
         return $styles;
@@ -486,7 +492,7 @@ class Paragraph extends Border
     }
 
     /**
-     * Set space after paragraph
+     * Set space above text of paragraph
      *
      * @param int $value
      * @return self
@@ -494,6 +500,48 @@ class Paragraph extends Border
     public function setSpaceAfter($value = null)
     {
         return $this->setSpace(array('after' => $value));
+    }
+
+    /**
+     * Get space below text of paragraph
+     *
+     * @return int
+     */
+    public function getSpaceBelow()
+    {
+        return $this->getChildStyleValue($this->spacing, 'below');
+    }
+
+    /**
+     * Set space below text of paragraph
+     *
+     * @param int $value
+     * @return self
+     */
+    public function setSpaceBelow($value = null)
+    {
+        return $this->setSpace(array('below' => $value));
+    }
+
+    /**
+     * Get space above text of paragraph
+     *
+     * @return int
+     */
+    public function getSpaceAbove()
+    {
+        return $this->getChildStyleValue($this->spacing, 'above');
+    }
+
+    /**
+     * Set space above text of paragraph
+     *
+     * @param int $value
+     * @return self
+     */
+    public function setSpaceAbove($value = null)
+    {
+        return $this->setSpace(array('above' => $value));
     }
 
     /**
@@ -963,4 +1011,5 @@ class Paragraph extends Border
 
         return $this;
     }
+    
 }

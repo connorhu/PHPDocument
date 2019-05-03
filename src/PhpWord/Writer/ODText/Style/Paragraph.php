@@ -17,6 +17,8 @@
 
 namespace PhpOffice\PhpWord\Writer\ODText\Style;
 
+use PhpOffice\PhpWord\Shared\Converter;
+
 /**
  * Font style writer
  *
@@ -35,8 +37,10 @@ class Paragraph extends AbstractStyle
         }
         $xmlWriter = $this->getXmlWriter();
 
-        $marginTop = (is_null($style->getSpaceBefore()) || $style->getSpaceBefore() == 0) ? '0' : round(17.6 / $style->getSpaceBefore(), 2);
-        $marginBottom = (is_null($style->getSpaceAfter()) || $style->getSpaceAfter() == 0) ? '0' : round(17.6 / $style->getSpaceAfter(), 2);
+        $marginTop = (is_null($style->getSpaceAbove()) || $style->getSpaceAbove() == 0) ? '0' : Converter::twipToInch($style->getSpaceAbove());
+        $marginBottom = (is_null($style->getSpaceBelow()) || $style->getSpaceBelow() == 0) ? '0' : Converter::twipToInch($style->getSpaceBelow());
+        $marginLeft = (is_null($style->getSpaceBefore()) || $style->getSpaceBefore() == 0) ? '0' : Converter::twipToInch($style->getSpaceBefore());
+        $marginRight = (is_null($style->getSpaceAfter()) || $style->getSpaceAfter() == 0) ? '0' : Converter::twipToInch($style->getSpaceAfter());
 
         $xmlWriter->startElement('style:style');
         $xmlWriter->writeAttribute('style:name', $style->getStyleName());
@@ -50,8 +54,11 @@ class Paragraph extends AbstractStyle
         if ($style->isAuto()) {
             $xmlWriter->writeAttribute('style:page-number', 'auto');
         } else {
-            $xmlWriter->writeAttribute('fo:margin-top', $marginTop . 'cm');
-            $xmlWriter->writeAttribute('fo:margin-bottom', $marginBottom . 'cm');
+            $xmlWriter->writeAttribute('fo:margin-top', $marginTop . 'in');
+            $xmlWriter->writeAttribute('fo:margin-bottom', $marginBottom . 'in');
+            $xmlWriter->writeAttribute('fo:margin-left', $marginLeft . 'in');
+            $xmlWriter->writeAttribute('fo:margin-right', $marginRight . 'in');
+
             $xmlWriter->writeAttribute('fo:text-align', $style->getAlignment());
             
             if ($style->getLineHeight() !== null) {
@@ -67,6 +74,10 @@ class Paragraph extends AbstractStyle
             $xmlWriter->writeAttribute('fo:keep-together', $style->isKeepLines() ? 'always' : 'auto');
 
             $xmlWriter->writeAttribute('fo:hyphenation-ladder-count', $style->getHyphenationLadderCount() === null ? 'no-limit' : $style->getHyphenationLadderCount());
+
+            if ($style->getIndent() !== null) {
+                $xmlWriter->writeAttribute('fo:text-indent', Converter::twipToInch($style->getIndent()) . 'in');
+            }
         }
 
         //Right to left
