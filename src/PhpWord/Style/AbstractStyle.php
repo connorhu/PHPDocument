@@ -255,6 +255,24 @@ abstract class AbstractStyle
     }
 
     /**
+     * Positive integer
+     *
+     * @param int|null $value
+     * @param int|null $default
+     * @return int|null
+     */
+    protected function setPositiveIntVal($value, $default = null)
+    {
+        $value = $this->setIntVal($value, $default);
+        
+        if ($value < 0) {
+            $value = $default;
+        }
+        
+        return $value;
+    }
+
+    /**
      * Set float value: Convert string that contains only numeric into float
      *
      * @param mixed $value

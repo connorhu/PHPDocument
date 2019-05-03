@@ -61,6 +61,8 @@ class Paragraph extends AbstractStyle
             $xmlWriter->writeAttribute('fo:keep-with-next', $style->isKeepNext() ? 'always' : 'auto');
 
             $xmlWriter->writeAttribute('fo:keep-together', $style->isKeepLines() ? 'always' : 'auto');
+
+            $xmlWriter->writeAttribute('fo:hyphenation-ladder-count', $style->getHyphenationLadderCount() === null ? 'no-limit' : $style->getHyphenationLadderCount());
         }
 
         //Right to left

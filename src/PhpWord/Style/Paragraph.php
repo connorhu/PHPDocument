@@ -195,6 +195,13 @@ class Paragraph extends Border
     private $suppressAutoHyphens = false;
 
     /**
+     * Maximum number of consecutive hyphens
+     *
+     * @var int|null
+     */
+    private $hyphenationLadderCount;
+
+    /**
      * Set Style value
      *
      * @param string $key
@@ -903,6 +910,29 @@ class Paragraph extends Border
     public function setSuppressAutoHyphens($suppressAutoHyphens)
     {
         $this->suppressAutoHyphens = (bool) $suppressAutoHyphens;
+
+        return $this;
+    }
+    
+    /**
+     * getter for Maximum number of consecutive hyphens
+     * 
+     * @return integer|null
+     */
+    public function getHyphenationLadderCount()
+    {
+        return $this->hyphenationLadderCount;
+    }
+
+    /**
+     * setter for Maximum number of consecutive hyphens
+     *
+     * @param integer|null $value
+     * @return self
+     */
+    public function setHyphenationLadderCount($value)
+    {
+        $this->hyphenationLadderCount = $value !== null ? $this->setPositiveIntVal($value, $this->hyphenationLadderCount) : null;
 
         return $this;
     }
