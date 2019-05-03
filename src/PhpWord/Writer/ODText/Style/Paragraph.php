@@ -53,6 +53,10 @@ class Paragraph extends AbstractStyle
             $xmlWriter->writeAttribute('fo:margin-top', $marginTop . 'cm');
             $xmlWriter->writeAttribute('fo:margin-bottom', $marginBottom . 'cm');
             $xmlWriter->writeAttribute('fo:text-align', $style->getAlignment());
+            
+            if ($style->getLineHeight() !== null) {
+                $xmlWriter->writeAttribute('fo:line-height', $style->getLineHeight() . '%');
+            }
         }
 
         //Right to left
