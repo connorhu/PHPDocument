@@ -10,22 +10,21 @@
  * file that was distributed with this source code. For the full list of
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
- * @link        https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2015 PHPWord contributors
+ * @see         https://github.com/PHPOffice/PHPWord
+ * @copyright   2010-2018 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
 namespace PhpOffice\PhpWord;
 
 use PhpOffice\PhpWord\Metadata\DocInfo;
-use PhpOffice\PhpWord\Style;
 
 /**
  * Test class for PhpOffice\PhpWord\PhpWord
  *
  * @runTestsInSeparateProcesses
  */
-class PhpWordTest extends \PHPUnit_Framework_TestCase
+class PhpWordTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * Test object creation
@@ -100,7 +99,6 @@ class PhpWordTest extends \PHPUnit_Framework_TestCase
             $phpWord->$method($styleId, array());
             $this->assertInstanceOf("PhpOffice\\PhpWord\\Style\\{$value}", Style::getStyle($styleId));
         }
-
     }
 
     /**
@@ -140,7 +138,7 @@ class PhpWordTest extends \PHPUnit_Framework_TestCase
      */
     public function testLoadTemplateException()
     {
-        $templateFqfn = join(
+        $templateFqfn = implode(
             DIRECTORY_SEPARATOR,
             array(PHPWORD_TESTS_BASE_DIR, 'PhpWord', 'Tests', '_files', 'templates', 'blanks.docx')
         );
@@ -153,6 +151,8 @@ class PhpWordTest extends \PHPUnit_Framework_TestCase
      */
     public function testSave()
     {
+        $this->setOutputCallback(function () {
+        });
         $phpWord = new PhpWord();
         $section = $phpWord->addSection();
         $section->addText('Hello world!');
@@ -170,5 +170,59 @@ class PhpWordTest extends \PHPUnit_Framework_TestCase
     {
         $phpWord = new PhpWord();
         $phpWord->undefinedMethod();
+    }
+
+    /**
+     * @covers \PhpOffice\PhpWord\PhpWord::getSection
+     */
+    public function testGetNotExistingSection()
+    {
+        $phpWord = new PhpWord();
+        $section = $phpWord->getSection(0);
+
+        $this->assertNull($section);
+    }
+
+    /**
+     * @covers \PhpOffice\PhpWord\PhpWord::getSection
+     */
+    public function testGetSection()
+    {
+        $phpWord = new PhpWord();
+        $phpWord->addSection();
+        $section = $phpWord->getSection(0);
+
+        $this->assertNotNull($section);
+    }
+
+    /**
+     * @covers \PhpOffice\PhpWord\PhpWord::sortSections
+     */
+    public function testSortSections()
+    {
+        $phpWord = new PhpWord();
+        $section1 = $phpWord->addSection();
+        $section1->addText('test1');
+        $section2 = $phpWord->addSection();
+        $section2->addText('test2');
+        $section2->addText('test3');
+
+        $this->assertEquals(1, $phpWord->getSection(0)->countElements());
+        $this->assertEquals(2, $phpWord->getSection(1)->countElements());
+
+        $phpWord->sortSections(function ($a, $b) {
+            $numElementsInA = $a->countElements();
+            $numElementsInB = $b->countElements();
+            if ($numElementsInA === $numElementsInB) {
+                return 0;
+            } elseif ($numElementsInA > $numElementsInB) {
+                return -1;
+            }
+
+            return 1;
+        });
+
+        $this->assertEquals(2, $phpWord->getSection(0)->countElements());
+        $this->assertEquals(1, $phpWord->getSection(1)->countElements());
     }
 }

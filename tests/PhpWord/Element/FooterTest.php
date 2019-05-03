@@ -10,19 +10,21 @@
  * file that was distributed with this source code. For the full list of
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
- * @link        https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2015 PHPWord contributors
+ * @see         https://github.com/PHPOffice/PHPWord
+ * @copyright   2010-2018 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
 namespace PhpOffice\PhpWord\Element;
+
+use PhpOffice\PhpWord\AbstractWebServerEmbeddedTest;
 
 /**
  * Test class for PhpOffice\PhpWord\Element\Footer
  *
  * @runTestsInSeparateProcesses
  */
-class FooterTest extends \PHPUnit_Framework_TestCase
+class FooterTest extends AbstractWebServerEmbeddedTest
 {
     /**
      * New instance
@@ -42,7 +44,7 @@ class FooterTest extends \PHPUnit_Framework_TestCase
     public function testAddText()
     {
         $oFooter = new Footer(1);
-        $element = $oFooter->addText(htmlspecialchars('text', ENT_COMPAT, 'UTF-8'));
+        $element = $oFooter->addText('text');
 
         $this->assertCount(1, $oFooter->getElements());
         $this->assertInstanceOf('PhpOffice\\PhpWord\\Element\\Text', $element);
@@ -54,11 +56,11 @@ class FooterTest extends \PHPUnit_Framework_TestCase
     public function testAddTextNotUTF8()
     {
         $oFooter = new Footer(1);
-        $element = $oFooter->addText(utf8_decode(htmlspecialchars('ééé', ENT_COMPAT, 'UTF-8')));
+        $element = $oFooter->addText(utf8_decode('ééé'));
 
         $this->assertCount(1, $oFooter->getElements());
         $this->assertInstanceOf('PhpOffice\\PhpWord\\Element\\Text', $element);
-        $this->assertEquals(htmlspecialchars('ééé', ENT_COMPAT, 'UTF-8'), $element->getText());
+        $this->assertEquals('ééé', $element->getText());
     }
 
     /**
@@ -116,9 +118,7 @@ class FooterTest extends \PHPUnit_Framework_TestCase
     public function testAddImageByUrl()
     {
         $oFooter = new Footer(1);
-        $element = $oFooter->addImage(
-            'http://php.net/images/logos/php-med-trans-light.gif'
-        );
+        $element = $oFooter->addImage(self::getRemoteGifImageUrl());
 
         $this->assertCount(1, $oFooter->getElements());
         $this->assertInstanceOf('PhpOffice\\PhpWord\\Element\\Image', $element);
@@ -130,7 +130,7 @@ class FooterTest extends \PHPUnit_Framework_TestCase
     public function testAddPreserveText()
     {
         $oFooter = new Footer(1);
-        $element = $oFooter->addPreserveText(htmlspecialchars('text', ENT_COMPAT, 'UTF-8'));
+        $element = $oFooter->addPreserveText('text');
 
         $this->assertCount(1, $oFooter->getElements());
         $this->assertInstanceOf('PhpOffice\\PhpWord\\Element\\PreserveText', $element);
@@ -142,11 +142,11 @@ class FooterTest extends \PHPUnit_Framework_TestCase
     public function testAddPreserveTextNotUTF8()
     {
         $oFooter = new Footer(1);
-        $element = $oFooter->addPreserveText(utf8_decode(htmlspecialchars('ééé', ENT_COMPAT, 'UTF-8')));
+        $element = $oFooter->addPreserveText(utf8_decode('ééé'));
 
         $this->assertCount(1, $oFooter->getElements());
         $this->assertInstanceOf('PhpOffice\\PhpWord\\Element\\PreserveText', $element);
-        $this->assertEquals(array(htmlspecialchars('ééé', ENT_COMPAT, 'UTF-8')), $element->getText());
+        $this->assertEquals(array('ééé'), $element->getText());
     }
 
     /**

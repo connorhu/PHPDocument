@@ -1,4 +1,6 @@
 <?php
+use PhpOffice\PhpWord\SimpleType\VerticalJc;
+
 include_once 'Sample_Header.php';
 
 // New Word Document
@@ -7,17 +9,11 @@ $phpWord = new \PhpOffice\PhpWord\PhpWord();
 
 // New portrait section
 $section = $phpWord->addSection(array('borderColor' => '00FF00', 'borderSize' => 12));
-$section->addText(htmlspecialchars('I am placed on a default section.', ENT_COMPAT, 'UTF-8'));
+$section->addText('I am placed on a default section.');
 
 // New landscape section
 $section = $phpWord->addSection(array('orientation' => 'landscape'));
-$section->addText(
-    htmlspecialchars(
-        'I am placed on a landscape section. Every page starting from this section will be landscape style.',
-        ENT_COMPAT,
-        'UTF-8'
-    )
-);
+$section->addText('I am placed on a landscape section. Every page starting from this section will be landscape style.');
 $section->addPageBreak();
 $section->addPageBreak();
 
@@ -25,7 +21,13 @@ $section->addPageBreak();
 $section = $phpWord->addSection(
     array('paperSize' => 'Folio', 'marginLeft' => 600, 'marginRight' => 600, 'marginTop' => 600, 'marginBottom' => 600)
 );
-$section->addText(htmlspecialchars('This section uses other margins with folio papersize.', ENT_COMPAT, 'UTF-8'));
+$section->addText('This section uses other margins with folio papersize.');
+
+// The text of this section is vertically centered
+$section = $phpWord->addSection(
+    array('vAlign' => VerticalJc::CENTER)
+);
+$section->addText('This section is vertically centered.');
 
 // New portrait section with Header & Footer
 $section = $phpWord->addSection(
@@ -38,9 +40,9 @@ $section = $phpWord->addSection(
         'footerHeight' => 50,
     )
 );
-$section->addText(htmlspecialchars('This section and we play with header/footer height.', ENT_COMPAT, 'UTF-8'));
-$section->addHeader()->addText(htmlspecialchars('Header', ENT_COMPAT, 'UTF-8'));
-$section->addFooter()->addText(htmlspecialchars('Footer', ENT_COMPAT, 'UTF-8'));
+$section->addText('This section and we play with header/footer height.');
+$section->addHeader()->addText('Header');
+$section->addFooter()->addText('Footer');
 
 // Save file
 echo write($phpWord, basename(__FILE__, '.php'), $writers);

@@ -10,8 +10,8 @@
  * file that was distributed with this source code. For the full list of
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
- * @link        https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2015 PHPWord contributors
+ * @see         https://github.com/PHPOffice/PHPWord
+ * @copyright   2010-2018 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
@@ -24,7 +24,7 @@ use PhpOffice\PhpWord\Element\Image;
  *
  * @runTestsInSeparateProcesses
  */
-class MediaTest extends \PHPUnit_Framework_TestCase
+class MediaTest extends AbstractWebServerEmbeddedTest
 {
     /**
      * Get section media elements
@@ -49,7 +49,7 @@ class MediaTest extends \PHPUnit_Framework_TestCase
     {
         $local = __DIR__ . '/_files/images/mars.jpg';
         $object = __DIR__ . '/_files/documents/sheet.xls';
-        $remote = 'http://php.net/images/logos/php-med-trans-light.gif';
+        $remote = self::getRemoteImageUrl();
         Media::addElement('section', 'image', $local, new Image($local));
         Media::addElement('section', 'image', $local, new Image($local));
         Media::addElement('section', 'image', $remote, new Image($local));
@@ -77,7 +77,7 @@ class MediaTest extends \PHPUnit_Framework_TestCase
     public function testAddHeaderMediaElement()
     {
         $local = __DIR__ . '/_files/images/mars.jpg';
-        $remote = 'http://php.net/images/logos/php-med-trans-light.gif';
+        $remote = self::getRemoteImageUrl();
         Media::addElement('header1', 'image', $local, new Image($local));
         Media::addElement('header1', 'image', $local, new Image($local));
         Media::addElement('header1', 'image', $remote, new Image($remote));
@@ -92,7 +92,7 @@ class MediaTest extends \PHPUnit_Framework_TestCase
     public function testAddFooterMediaElement()
     {
         $local = __DIR__ . '/_files/images/mars.jpg';
-        $remote = 'http://php.net/images/logos/php-med-trans-light.gif';
+        $remote = self::getRemoteImageUrl();
         Media::addElement('footer1', 'image', $local, new Image($local));
         Media::addElement('footer1', 'image', $local, new Image($local));
         Media::addElement('footer1', 'image', $remote, new Image($remote));
@@ -106,7 +106,7 @@ class MediaTest extends \PHPUnit_Framework_TestCase
     /**
      * Add image element exception
      *
-     * @expectedException Exception
+     * @expectedException \Exception
      * @expectedExceptionMessage Image object not assigned.
      */
     public function testAddElementImageException()

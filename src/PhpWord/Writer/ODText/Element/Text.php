@@ -10,13 +10,14 @@
  * file that was distributed with this source code. For the full list of
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
- * @link        https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2015 PHPWord contributors
+ * @see         https://github.com/PHPOffice/PHPWord
+ * @copyright   2010-2018 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
 namespace PhpOffice\PhpWord\Writer\ODText\Element;
 
+use PhpOffice\PhpWord\Element\TrackChange;
 use PhpOffice\PhpWord\Exception\Exception;
 
 /**
@@ -46,10 +47,16 @@ class Text extends AbstractElement
         if ($fStyleIsObject) {
             // Don't never be the case, because I browse all sections for cleaning all styles not declared
             throw new Exception('PhpWord : $fStyleIsObject wouldn\'t be an object');
+        }
+
+        if (!$this->withoutP) {
+            $xmlWriter->startElement('text:p'); // text:p
+        }
+        if ($element->getTrackChange() != null && $element->getTrackChange()->getChangeType() == TrackChange::DELETED) {
+            $xmlWriter->startElement('text:change');
+            $xmlWriter->writeAttribute('text:change-id', $element->getTrackChange()->getElementId());
+            $xmlWriter->endElement();
         } else {
-            if (!$this->withoutP) {
-                $xmlWriter->startElement('text:p'); // text:p
-            }
             if (empty($fontStyle)) {
                 if (empty($paragraphStyle)) {
                     $xmlWriter->writeAttribute('text:style-name', 'P1');
@@ -58,7 +65,9 @@ class Text extends AbstractElement
                 } elseif ($paragraphStyle instanceof \PhpOffice\PhpWord\Style\Paragraph) {
                     $xmlWriter->writeAttribute('text:style-name', $paragraphStyle->getStyleName());
                 }
-                $xmlWriter->writeRaw($element->getText());
+                $this->writeChangeInsertion(true, $element->getTrackChange());
+                $this->writeText($element->getText());
+                $this->writeChangeInsertion(false, $element->getTrackChange());
             } else {
                 if (empty($paragraphStyle)) {
                     $xmlWriter->writeAttribute('text:style-name', 'Standard');
@@ -70,12 +79,25 @@ class Text extends AbstractElement
                 if (is_string($fontStyle)) {
                     $xmlWriter->writeAttribute('text:style-name', $fontStyle);
                 }
-                $xmlWriter->writeRaw($element->getText());
+                $this->writeChangeInsertion(true, $element->getTrackChange());
+                $this->writeText($element->getText());
+                $this->writeChangeInsertion(false, $element->getTrackChange());
                 $xmlWriter->endElement();
             }
-            if (!$this->withoutP) {
-                $xmlWriter->endElement(); // text:p
-            }
         }
+        if (!$this->withoutP) {
+            $xmlWriter->endElement(); // text:p
+        }
+    }
+
+    private function writeChangeInsertion($start = true, TrackChange $trackChange = null)
+    {
+        if ($trackChange == null || $trackChange->getChangeType() != TrackChange::INSERTED) {
+            return;
+        }
+        $xmlWriter = $this->getXmlWriter();
+        $xmlWriter->startElement('text:change-' . ($start ? 'start' : 'end'));
+        $xmlWriter->writeAttribute('text:change-id', $trackChange->getElementId());
+        $xmlWriter->endElement();
     }
 }

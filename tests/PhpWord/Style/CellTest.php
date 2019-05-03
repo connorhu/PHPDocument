@@ -10,12 +10,14 @@
  * file that was distributed with this source code. For the full list of
  * contributors, visit https://github.com/PHPOffice/PHPWord/contributors.
  *
- * @link        https://github.com/PHPOffice/PHPWord
- * @copyright   2010-2015 PHPWord contributors
+ * @see         https://github.com/PHPOffice/PHPWord
+ * @copyright   2010-2018 PHPWord contributors
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
 namespace PhpOffice\PhpWord\Style;
+
+use PhpOffice\PhpWord\SimpleType\VerticalJc;
 
 /**
  * Test class for PhpOffice\PhpWord\Style\Cell
@@ -23,7 +25,7 @@ namespace PhpOffice\PhpWord\Style;
  * @coversDefaultClass \PhpOffice\PhpWord\Style\Cell
  * @runTestsInSeparateProcesses
  */
-class CellTest extends \PHPUnit_Framework_TestCase
+class CellTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * Test setting style with normal value
@@ -33,7 +35,7 @@ class CellTest extends \PHPUnit_Framework_TestCase
         $object = new Cell();
 
         $attributes = array(
-            'valign'            => Cell::VALIGN_TOP,
+            'valign'            => VerticalJc::TOP,
             'textDirection'     => Cell::TEXT_DIR_BTLR,
             'bgColor'           => 'FFFF00',
             'borderTopSize'     => 120,
