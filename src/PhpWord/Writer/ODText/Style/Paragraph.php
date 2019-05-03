@@ -66,7 +66,7 @@ class Paragraph extends AbstractStyle
             }
 
             if ($style->getJustifySingleWord() !== null) {
-                $xmlWriter->writeAttribute('style:justify-single-word', $style->getJustifySingleWord() ? 'true' : 'false');
+                $xmlWriter->writeAttribute('style:justify-single-word', $style->isJustifySingleWord() ? 'true' : 'false');
             }
 
             $xmlWriter->writeAttribute('fo:keep-with-next', $style->isKeepNext() ? 'always' : 'auto');

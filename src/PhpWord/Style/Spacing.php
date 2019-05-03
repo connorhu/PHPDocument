@@ -54,7 +54,7 @@ class Spacing extends AbstractStyle
      *
      * @var int|float
      */
-    private $abowe;
+    private $above;
 
     /**
      * Spacing between lines in paragraph (twip)

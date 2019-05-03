@@ -971,7 +971,7 @@ class Paragraph extends Border
     /**
      * @return bool
      */
-    public function getJustifySingleWord()
+    public function isJustifySingleWord()
     {
         return $this->justifySingleWord;
     }
