@@ -264,11 +264,11 @@ abstract class AbstractStyle
     protected function setPositiveIntVal($value, $default = null)
     {
         $value = $this->setIntVal($value, $default);
-        
+
         if ($value < 0) {
             $value = $default;
         }
-        
+
         return $value;
     }
 

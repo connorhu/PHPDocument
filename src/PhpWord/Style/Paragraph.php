@@ -19,9 +19,9 @@ namespace PhpOffice\PhpWord\Style;
 
 use PhpOffice\Common\Text;
 use PhpOffice\PhpWord\Exception\InvalidStyleException;
+use PhpOffice\PhpWord\Shared\Converter;
 use PhpOffice\PhpWord\SimpleType\Jc;
 use PhpOffice\PhpWord\SimpleType\TextAlignment;
-use PhpOffice\PhpWord\Shared\Converter;
 
 /**
  * Paragraph style
@@ -159,7 +159,7 @@ class Paragraph extends Border
      * @var \PhpOffice\PhpWord\Style\Shading
      */
     private $shading;
-    
+
     /**
      * Font style
      *
@@ -222,12 +222,11 @@ class Paragraph extends Border
         if ('indent' == $key || 'hanging' == $key) {
             if (is_string($value)) {
                 $value = Converter::autoConvertTo($value, 'twip');
-            }
-            else {
+            } else {
                 $value = $value * 720;
             }
         }
-        
+
         return parent::setStyleValue($key, $value);
     }
 
@@ -988,11 +987,11 @@ class Paragraph extends Border
 
         return $this;
     }
-    
+
     /**
      * getter for Maximum number of consecutive hyphens
-     * 
-     * @return integer|null
+     *
+     * @return int|null
      */
     public function getHyphenationLadderCount()
     {
@@ -1002,7 +1001,7 @@ class Paragraph extends Border
     /**
      * setter for Maximum number of consecutive hyphens
      *
-     * @param integer|null $value
+     * @param int|null $value
      * @return self
      */
     public function setHyphenationLadderCount($value)
@@ -1011,5 +1010,4 @@ class Paragraph extends Border
 
         return $this;
     }
-    
 }

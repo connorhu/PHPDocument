@@ -364,7 +364,7 @@ class Converter
     {
         return self::pointToEmu(self::cssToPoint($value));
     }
-    
+
     /**
      * Transforms a size in CSS format (eg. 10px, 10px, ...) to ...
      *
@@ -372,7 +372,8 @@ class Converter
      * @param string $targetMeasurement
      * @return float
      */
-    public static function autoConvertTo($value, $targetMeasurement = 'twip') {
+    public static function autoConvertTo($value, $targetMeasurement = 'twip')
+    {
         if ($value == '0') {
             return 0;
         }
@@ -385,15 +386,15 @@ class Converter
                 case 'pt':
                     return $size;
                 case 'px':
-                    return self::{'pixelTo'. ucfirst($targetMeasurement)}($size);
+                    return self::{'pixelTo' . ucfirst($targetMeasurement)}($size);
                 case 'cm':
-                    return self::{'cmTo'. ucfirst($targetMeasurement)}($size);
+                    return self::{'cmTo' . ucfirst($targetMeasurement)}($size);
                 case 'mm':
-                    return self::{'cmTo'. ucfirst($targetMeasurement)}($size / 10);
+                    return self::{'cmTo' . ucfirst($targetMeasurement)}($size / 10);
                 case 'in':
-                    return self::{'inchTo'. ucfirst($targetMeasurement)}($size);
+                    return self::{'inchTo' . ucfirst($targetMeasurement)}($size);
                 case 'pc':
-                    return self::{'picaTo'. ucfirst($targetMeasurement)}($size);
+                    return self::{'picaTo' . ucfirst($targetMeasurement)}($size);
             }
         }
 

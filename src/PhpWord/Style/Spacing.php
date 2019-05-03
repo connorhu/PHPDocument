@@ -17,8 +17,8 @@
 
 namespace PhpOffice\PhpWord\Style;
 
-use PhpOffice\PhpWord\SimpleType\LineSpacingRule;
 use PhpOffice\PhpWord\Shared\Converter;
+use PhpOffice\PhpWord\SimpleType\LineSpacingRule;
 
 /**
  * Spacing between lines and above/below paragraph style

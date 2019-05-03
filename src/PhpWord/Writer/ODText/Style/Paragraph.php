@@ -60,7 +60,7 @@ class Paragraph extends AbstractStyle
             $xmlWriter->writeAttribute('fo:margin-right', $marginRight . 'in');
 
             $xmlWriter->writeAttribute('fo:text-align', $style->getAlignment());
-            
+
             if ($style->getLineHeight() !== null) {
                 $xmlWriter->writeAttribute('fo:line-height', $style->getLineHeight() . '%');
             }
@@ -84,7 +84,7 @@ class Paragraph extends AbstractStyle
         $xmlWriter->writeAttributeIf($style->isBidi(), 'style:writing-mode', 'rl-tb');
 
         $xmlWriter->endElement(); //style:paragraph-properties
-        
+
         if ($style->getFont()) {
             $writer = new \PhpOffice\PhpWord\Writer\ODText\Style\Font($xmlWriter, $style->getFont());
             $writer->write();
