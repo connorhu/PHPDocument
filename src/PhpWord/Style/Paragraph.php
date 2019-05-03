@@ -202,6 +202,13 @@ class Paragraph extends Border
     private $hyphenationLadderCount;
 
     /**
+     * Justify Single Word
+     *
+     * @var bool
+     */
+    private $justifySingleWord;
+
+    /**
      * Set Style value
      *
      * @param string $key
@@ -910,6 +917,26 @@ class Paragraph extends Border
     public function setSuppressAutoHyphens($suppressAutoHyphens)
     {
         $this->suppressAutoHyphens = (bool) $suppressAutoHyphens;
+
+        return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function getJustifySingleWord()
+    {
+        return $this->justifySingleWord;
+    }
+
+    /**
+     * @param bool $value
+     *
+     * @return self
+     */
+    public function setJustifySingleWord($value)
+    {
+        $this->justifySingleWord = $value;
 
         return $this;
     }
