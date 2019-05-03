@@ -57,6 +57,10 @@ class Paragraph extends AbstractStyle
             if ($style->getLineHeight() !== null) {
                 $xmlWriter->writeAttribute('fo:line-height', $style->getLineHeight() . '%');
             }
+
+            $xmlWriter->writeAttribute('fo:keep-with-next', $style->isKeepNext() ? 'always' : 'auto');
+
+            $xmlWriter->writeAttribute('fo:keep-together', $style->isKeepLines() ? 'always' : 'auto');
         }
 
         //Right to left
