@@ -276,7 +276,7 @@ class Cell extends Border
      */
     public function setShading($value = null)
     {
-        $this->setObjectVal($value, 'Shading', $this->shading);
+        $this->setObjectVal($value, Shading::class, $this->shading);
 
         return $this;
     }

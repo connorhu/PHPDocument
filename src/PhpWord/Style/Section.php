@@ -605,7 +605,7 @@ class Section extends Border
      */
     public function setLineNumbering($value = null)
     {
-        $this->setObjectVal($value, 'LineNumbering', $this->lineNumbering);
+        $this->setObjectVal($value, LineNumbering::class, $this->lineNumbering);
 
         return $this;
     }

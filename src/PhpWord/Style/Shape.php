@@ -156,7 +156,7 @@ class Shape extends AbstractStyle
      */
     public function setFrame($value = null)
     {
-        $this->setObjectVal($value, 'Frame', $this->frame);
+        $this->setObjectVal($value, Frame::class, $this->frame);
 
         return $this;
     }
@@ -179,7 +179,7 @@ class Shape extends AbstractStyle
      */
     public function setFill($value = null)
     {
-        $this->setObjectVal($value, 'Fill', $this->fill);
+        $this->setObjectVal($value, Fill::class, $this->fill);
 
         return $this;
     }
@@ -202,7 +202,7 @@ class Shape extends AbstractStyle
      */
     public function setOutline($value = null)
     {
-        $this->setObjectVal($value, 'Outline', $this->outline);
+        $this->setObjectVal($value, Outline::class, $this->outline);
 
         return $this;
     }
@@ -225,7 +225,7 @@ class Shape extends AbstractStyle
      */
     public function setShadow($value = null)
     {
-        $this->setObjectVal($value, 'Shadow', $this->shadow);
+        $this->setObjectVal($value, Shadow::class, $this->shadow);
 
         return $this;
     }
@@ -248,7 +248,7 @@ class Shape extends AbstractStyle
      */
     public function setExtrusion($value = null)
     {
-        $this->setObjectVal($value, 'Extrusion', $this->extrusion);
+        $this->setObjectVal($value, Extrusion::class, $this->extrusion);
 
         return $this;
     }

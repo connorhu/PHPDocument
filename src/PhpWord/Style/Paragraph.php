@@ -382,7 +382,7 @@ class Paragraph extends Border
      */
     public function setIndentation($value = null)
     {
-        $this->setObjectVal($value, 'Indentation', $this->indentation);
+        $this->setObjectVal($value, Indentation::class, $this->indentation);
 
         return $this;
     }
@@ -449,7 +449,7 @@ class Paragraph extends Border
      */
     public function setSpace($value = null)
     {
-        $this->setObjectVal($value, 'Spacing', $this->spacing);
+        $this->setObjectVal($value, Spacing::class, $this->spacing);
 
         return $this;
     }
@@ -802,7 +802,7 @@ class Paragraph extends Border
      */
     public function setShading($value = null)
     {
-        $this->setObjectVal($value, 'Shading', $this->shading);
+        $this->setObjectVal($value, Shading::class, $this->shading);
 
         return $this;
     }
@@ -825,7 +825,7 @@ class Paragraph extends Border
      */
     public function setFont($value = null)
     {
-        $this->setObjectVal($value, 'Font', $this->font);
+        $this->setObjectVal($value, Font::class, $this->font);
         $this->font->setParagraph($this);
 
         return $this;

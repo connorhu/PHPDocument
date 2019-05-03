@@ -798,7 +798,7 @@ class Font extends AbstractStyle
      */
     public function setParagraph($value = null)
     {
-        $this->setObjectVal($value, 'Paragraph', $this->paragraph);
+        $this->setObjectVal($value, Paragraph::class, $this->paragraph);
 
         return $this;
     }
@@ -844,7 +844,7 @@ class Font extends AbstractStyle
      */
     public function setShading($value = null)
     {
-        $this->setObjectVal($value, 'Shading', $this->shading);
+        $this->setObjectVal($value, Shading::class, $this->shading);
 
         return $this;
     }
@@ -870,7 +870,7 @@ class Font extends AbstractStyle
         if (is_string($value) && $value != '') {
             $value = new Language($value);
         }
-        $this->setObjectVal($value, 'Language', $this->lang);
+        $this->setObjectVal($value, Language::class, $this->lang);
 
         return $this;
     }

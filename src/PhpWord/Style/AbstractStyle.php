@@ -316,17 +316,16 @@ abstract class AbstractStyle
      * Set object value
      *
      * @param mixed $value
-     * @param string $styleName
+     * @param string $styleClassName
      * @param mixed &$style
      * @return mixed
      */
-    protected function setObjectVal($value, $styleName, &$style)
+    protected function setObjectVal($value, $styleClassName, &$style)
     {
-        $styleClass = substr(get_class($this), 0, strrpos(get_class($this), '\\')) . '\\' . $styleName;
         if (is_array($value)) {
             /** @var \PhpOffice\PhpWord\Style\AbstractStyle $style Type hint */
-            if (!$style instanceof $styleClass) {
-                $style = new $styleClass();
+            if (!$style instanceof $styleClassName) {
+                $style = new $styleClassName();
             }
             $style->setStyleByArray($value);
         } else {

@@ -551,7 +551,7 @@ class Table extends Border
      */
     public function setShading($value = null)
     {
-        $this->setObjectVal($value, 'Shading', $this->shading);
+        $this->setObjectVal($value, Shading::class, $this->shading);
 
         return $this;
     }
@@ -739,7 +739,7 @@ class Table extends Border
      */
     public function setPosition($value = null)
     {
-        $this->setObjectVal($value, 'TablePosition', $this->position);
+        $this->setObjectVal($value, TablePosition::class, $this->position);
 
         return $this;
     }
