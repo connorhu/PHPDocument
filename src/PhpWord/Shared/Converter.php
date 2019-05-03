@@ -318,31 +318,7 @@ class Converter
      */
     public static function cssToPoint($value)
     {
-        if ($value == '0') {
-            return 0;
-        }
-        $matches = array();
-        if (preg_match('/^[+-]?([0-9]+\.?[0-9]*)?(px|em|ex|%|in|cm|mm|pt|pc)$/i', $value, $matches)) {
-            $size = $matches[1];
-            $unit = $matches[2];
-
-            switch ($unit) {
-                case 'pt':
-                    return $size;
-                case 'px':
-                    return self::pixelToPoint($size);
-                case 'cm':
-                    return self::cmToPoint($size);
-                case 'mm':
-                    return self::cmToPoint($size / 10);
-                case 'in':
-                    return self::inchToPoint($size);
-                case 'pc':
-                    return self::picaToPoint($size);
-            }
-        }
-
-        return null;
+        return self::autoConvertTo($value, 'points');
     }
 
     /**
@@ -387,5 +363,40 @@ class Converter
     public static function cssToEmu($value)
     {
         return self::pointToEmu(self::cssToPoint($value));
+    }
+    
+    /**
+     * Transforms a size in CSS format (eg. 10px, 10px, ...) to ...
+     *
+     * @param string $value
+     * @param string $targetMeasurement
+     * @return float
+     */
+    public static function autoConvertTo($value, $targetMeasurement = 'twip') {
+        if ($value == '0') {
+            return 0;
+        }
+        $matches = array();
+        if (preg_match('/^[+-]?([0-9]+\.?[0-9]*)?(px|em|ex|%|in|cm|mm|pt|pc)$/i', $value, $matches)) {
+            $size = $matches[1];
+            $unit = $matches[2];
+
+            switch ($unit) {
+                case 'pt':
+                    return $size;
+                case 'px':
+                    return self::{'pixelTo'. ucfirst($targetMeasurement)}($size);
+                case 'cm':
+                    return self::{'cmTo'. ucfirst($targetMeasurement)}($size);
+                case 'mm':
+                    return self::{'cmTo'. ucfirst($targetMeasurement)}($size / 10);
+                case 'in':
+                    return self::{'inchTo'. ucfirst($targetMeasurement)}($size);
+                case 'pc':
+                    return self::{'picaTo'. ucfirst($targetMeasurement)}($size);
+            }
+        }
+
+        return null;
     }
 }
