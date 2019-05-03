@@ -86,6 +86,17 @@ class Converter
     }
 
     /**
+     * Convert twip to inch
+     *
+     * @param float $twip
+     * @return float
+     */
+    public static function twipToInch($twip = 1)
+    {
+        return $twip / self::INCH_TO_TWIP;
+    }
+
+    /**
      * Convert inch to twip
      *
      * @param float $inch
