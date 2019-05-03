@@ -898,9 +898,12 @@ class Paragraph extends Border
 
     /**
      * @param bool $suppressAutoHyphens
+     * @return self
      */
     public function setSuppressAutoHyphens($suppressAutoHyphens)
     {
         $this->suppressAutoHyphens = (bool) $suppressAutoHyphens;
+
+        return $this;
     }
 }
