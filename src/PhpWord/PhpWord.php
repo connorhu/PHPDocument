@@ -209,6 +209,8 @@ class PhpWord
      */
     public function getProtection()
     {
+        @trigger_error('getProtection method deprecated. use PhpWord->getSettings()->getDocumentProtection() method instead', E_USER_DEPRECATED);
+
         return $this->getSettings()->getDocumentProtection();
     }
 
