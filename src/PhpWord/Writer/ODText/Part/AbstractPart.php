@@ -21,12 +21,12 @@ use PhpOffice\Common\XMLWriter;
 use PhpOffice\PhpWord\Settings;
 use PhpOffice\PhpWord\Style;
 use PhpOffice\PhpWord\Style\Font;
-use PhpOffice\PhpWord\Writer\Word2007\Part\AbstractPart as Word2007AbstractPart;
+use PhpOffice\PhpWord\Writer\Word2007;
 
 /**
  * ODText writer part abstract
  */
-abstract class AbstractPart extends Word2007AbstractPart
+abstract class AbstractPart extends Word2007\Part\AbstractPart
 {
     /**
      * @var string Date format
@@ -78,7 +78,7 @@ abstract class AbstractPart extends Word2007AbstractPart
     {
         $xmlWriter->startElement('office:font-face-decls');
         $fontTable = array();
-        $styles = Style::getStyles();
+        $styles = $this->getParentWriter()->getPhpWord()->getStyleBag();
         $numFonts = 0;
         if (count($styles) > 0) {
             foreach ($styles as $style) {

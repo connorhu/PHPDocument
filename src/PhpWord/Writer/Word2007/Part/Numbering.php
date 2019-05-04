@@ -36,8 +36,9 @@ class Numbering extends AbstractPart
      */
     public function write()
     {
+        $phpWord = $this->getParentWriter()->getPhpWord();
         $xmlWriter = $this->getXmlWriter();
-        $styles = Style::getStyles();
+        $styles = $phpWord->getStyleBag();
         $drawingSchema = 'http://schemas.openxmlformats.org/drawingml/2006/wordprocessingDrawing';
 
         $xmlWriter->startDocument('1.0', 'UTF-8', 'yes');

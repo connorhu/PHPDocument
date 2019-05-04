@@ -172,10 +172,10 @@ class Content extends AbstractPart
      */
     private function writeTextStyles(XMLWriter $xmlWriter)
     {
-        $styles = Style::getStyles();
+        $styleBag = $this->getParentWriter()->getPhpWord()->getStyleBag();
         $paragraphStyleCount = 0;
-        if (count($styles) > 0) {
-            foreach ($styles as $style) {
+        if (count($styleBag) > 0) {
+            foreach ($styleBag as $style) {
                 if ($style->isAuto() === true) {
                     $styleClass = str_replace('\\Style\\', '\\Writer\\ODText\\Style\\', get_class($style));
                     if (class_exists($styleClass)) {

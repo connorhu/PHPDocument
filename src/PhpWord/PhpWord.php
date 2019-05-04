@@ -96,6 +96,13 @@ class PhpWord
      */
     private $settings;
 
+    /**
+     * Setting
+     *
+     * @var StyleBag
+     */
+    private $styleBag;
+
      * Create new instance
      *
      * Collections are created dynamically
@@ -105,6 +112,7 @@ class PhpWord
         // Reset Media and styles
         Media::resetElements();
         $this->settings = new Settings();
+        $this->styleBag = new StyleBag();
 
         // Collection
         $collections = array('Bookmarks', 'Titles', 'Footnotes', 'Endnotes', 'Charts', 'Comments');
@@ -449,5 +457,10 @@ class PhpWord
     public function getPhpWordSettings() : Settings
     {
         return $this->settings;
+    }
+    
+    public function getStyleBag() : StyleBag
+    {
+        return $this->styleBag;
     }
 }

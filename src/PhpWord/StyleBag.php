@@ -17,6 +17,8 @@
 
 namespace PhpOffice\PhpWord;
 
+use Countable;
+use Iterator;
 use PhpOffice\PhpWord\Style\AbstractStyle;
 use PhpOffice\PhpWord\Style\Font;
 use PhpOffice\PhpWord\Style\Numbering;
@@ -26,14 +28,15 @@ use PhpOffice\PhpWord\Style\Table;
 /**
  * Style collection
  */
-class Style
+class StyleBag implements Countable, Iterator
 {
+    private $iteratorCursor = 0;
     /**
      * Style register
      *
      * @var array
      */
-    private static $styles = array();
+    private $styles = array();
 
     /**
      * Add paragraph style
@@ -42,9 +45,9 @@ class Style
      * @param array|\PhpOffice\PhpWord\Style\AbstractStyle $styles
      * @return \PhpOffice\PhpWord\Style\Paragraph
      */
-    public static function addParagraphStyle($styleName, $styles)
+    public function addParagraphStyle($styleName, $styles)
     {
-        return self::setStyleValues($styleName, new Paragraph(), $styles);
+        return $this->setStyleValues($styleName, new Paragraph(), $styles);
     }
 
     /**
@@ -55,9 +58,9 @@ class Style
      * @param array|\PhpOffice\PhpWord\Style\AbstractStyle $paragraphStyle
      * @return \PhpOffice\PhpWord\Style\Font
      */
-    public static function addFontStyle($styleName, $fontStyle, $paragraphStyle = null)
+    public function addFontStyle($styleName, $fontStyle, $paragraphStyle = null)
     {
-        return self::setStyleValues($styleName, new Font('text', $paragraphStyle), $fontStyle);
+        return $this->setStyleValues($styleName, new Font('text', $paragraphStyle), $fontStyle);
     }
 
     /**
@@ -67,9 +70,9 @@ class Style
      * @param array|\PhpOffice\PhpWord\Style\AbstractStyle $styles
      * @return \PhpOffice\PhpWord\Style\Font
      */
-    public static function addLinkStyle($styleName, $styles)
+    public function addLinkStyle($styleName, $styles)
     {
-        return self::setStyleValues($styleName, new Font('link'), $styles);
+        return $this->setStyleValues($styleName, new Font('link'), $styles);
     }
 
     /**
@@ -80,9 +83,9 @@ class Style
      * @return \PhpOffice\PhpWord\Style\Numbering
      * @since 0.10.0
      */
-    public static function addNumberingStyle($styleName, $styleValues)
+    public function addNumberingStyle($styleName, $styleValues)
     {
-        return self::setStyleValues($styleName, new Numbering(), $styleValues);
+        return $this->setStyleValues($styleName, new Numbering(), $styleValues);
     }
 
     /**
@@ -93,7 +96,7 @@ class Style
      * @param array|\PhpOffice\PhpWord\Style\AbstractStyle $paragraphStyle
      * @return \PhpOffice\PhpWord\Style\Font
      */
-    public static function addTitleStyle($depth, $fontStyle, $paragraphStyle = null)
+    public function addTitleStyle($depth, $fontStyle, $paragraphStyle = null)
     {
         if (empty($depth)) {
             $styleName = 'Title';
@@ -101,7 +104,7 @@ class Style
             $styleName = "Heading_{$depth}";
         }
 
-        return self::setStyleValues($styleName, new Font('title', $paragraphStyle), $fontStyle);
+        return $this->setStyleValues($styleName, new Font('title', $paragraphStyle), $fontStyle);
     }
 
     /**
@@ -112,9 +115,9 @@ class Style
      * @param array|null $styleFirstRow
      * @return \PhpOffice\PhpWord\Style\Table
      */
-    public static function addTableStyle($styleName, $styleTable, $styleFirstRow = null)
+    public function addTableStyle($styleName, $styleTable, $styleFirstRow = null)
     {
-        return self::setStyleValues($styleName, new Table($styleTable, $styleFirstRow), null);
+        return $this->setStyleValues($styleName, new Table($styleTable, $styleFirstRow), null);
     }
 
     /**
@@ -123,9 +126,9 @@ class Style
      * @return int
      * @since 0.10.0
      */
-    public static function countStyles()
+    public function countStyles()
     {
-        return count(self::$styles);
+        return count($this->styles);
     }
 
     /**
@@ -133,9 +136,9 @@ class Style
      *
      * @since 0.10.0
      */
-    public static function resetStyles()
+    public function resetStyles()
     {
-        self::$styles = array();
+        $this->styles = array();
     }
 
     /**
@@ -144,9 +147,9 @@ class Style
      * @param array|\PhpOffice\PhpWord\Style\AbstractStyle $styles Paragraph style definition
      * @return \PhpOffice\PhpWord\Style\Paragraph
      */
-    public static function setDefaultParagraphStyle($styles)
+    public function setDefaultParagraphStyle($styles)
     {
-        return self::addParagraphStyle('Normal', $styles);
+        return $this->addParagraphStyle('Normal', $styles);
     }
 
     /**
@@ -154,9 +157,9 @@ class Style
      *
      * @return \PhpOffice\PhpWord\Style\AbstractStyle[]
      */
-    public static function getStyles()
+    public function getStyles()
     {
-        return self::$styles;
+        return $this->styles;
     }
 
     /**
@@ -165,10 +168,10 @@ class Style
      * @param string $styleName
      * @return \PhpOffice\PhpWord\Style\AbstractStyle Paragraph|Font|Table|Numbering
      */
-    public static function getStyle($styleName)
+    public function getStyle($styleName)
     {
-        if (isset(self::$styles[$styleName])) {
-            return self::$styles[$styleName];
+        if (isset($this->styles[$styleName])) {
+            return $this->styles[$styleName];
         }
 
         return null;
@@ -184,9 +187,9 @@ class Style
      * @param array|\PhpOffice\PhpWord\Style\AbstractStyle $value
      * @return \PhpOffice\PhpWord\Style\AbstractStyle
      */
-    private static function setStyleValues($name, $style, $value = null)
+    private function setStyleValues($name, $style, $value = null)
     {
-        if (!isset(self::$styles[$name])) {
+        if (!isset($this->styles[$name])) {
             if ($value !== null) {
                 if (is_array($value)) {
                     $style->setStyleByArray($value);
@@ -197,10 +200,41 @@ class Style
                 }
             }
             $style->setStyleName($name);
-            $style->setIndex(self::countStyles() + 1); // One based index
-            self::$styles[$name] = $style;
+            $style->setIndex($this->countStyles() + 1); // One based index
+            $this->styles[$name] = $style;
         }
 
-        return self::getStyle($name);
+        return $this->getStyle($name);
     }
+    
+    public function count() : int
+    {
+        return count($this->styles);
+    }
+    
+    public function current() : mixed
+    {
+        return $this->styles[$this->iteratorCursor];
+    }
+    
+    public function key() : scalar
+    {
+        return $this->iteratorCursor;
+    }
+    
+    public function next() : void
+    {
+        ++$this->iteratorCursor;
+    }
+    
+    public function rewind() : void
+    {
+        $this->iteratorCursor = 0;
+    }
+    
+    public function valid() : bool
+    {
+        return isset($this->styles[$this->iteratorCursor]);
+    }
+    
 }
