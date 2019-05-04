@@ -254,34 +254,6 @@ class Content extends AbstractPart
     }
 
     /**
-     * Get style of individual element
-     *
-     * @param \PhpOffice\PhpWord\Element\Text $element
-     * @param int $paragraphStyleCount
-     * @param int $fontStyleCount
-     */
-    private function getElementStyle(&$element, &$paragraphStyleCount, &$fontStyleCount)
-    {
-        $fontStyle = $element->getFontStyle();
-        $paragraphStyle = $element->getParagraphStyle();
-        $phpWord = $this->getParentWriter()->getPhpWord();
-
-        if ($fontStyle instanceof Font) {
-            // Font
-            $fontStyleCount++;
-            $style = $phpWord->addFontStyle("T{$fontStyleCount}", $fontStyle);
-            $style->setAuto();
-            $element->setFontStyle("T{$fontStyleCount}");
-        } elseif ($paragraphStyle instanceof Paragraph) {
-            // Paragraph
-            $paragraphStyleCount++;
-            $style = $phpWord->addParagraphStyle("P{$paragraphStyleCount}", array());
-            $style->setAuto();
-            $element->setParagraphStyle("P{$paragraphStyleCount}");
-        }
-    }
-
-    /**
      * Finds all tracked changes
      *
      * @param AbstractContainer $container
