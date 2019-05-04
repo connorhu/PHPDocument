@@ -20,9 +20,18 @@ namespace PhpOffice\PhpWord;
 use PhpOffice\PhpWord\Exception\Exception;
 use PhpOffice\PhpWord\Reader\ReaderInterface;
 use PhpOffice\PhpWord\Writer\WriterInterface;
+use PhpOffice\PhpWord\Writer as Writers;
 
 abstract class IOFactory
 {
+    private static $writers = [
+        'ODText' => Writers\ODText::class,
+        'RTF' => Writers\RTF::class,
+        'Word2007' => Writers\Word2007::class,
+        'HTML' => Writers\HTML::class,
+        'PDF' => Writers\PDF::class,
+    ];
+    
     /**
      * Create new writer
      *
@@ -33,15 +42,13 @@ abstract class IOFactory
      *
      * @return WriterInterface
      */
-    public static function createWriter(PhpWord $phpWord, $name = 'Word2007')
+    public static function createWriter(PhpWord $phpWord, string $name = 'Word2007') : WriterInterface
     {
-        if ($name !== 'WriterInterface' && !in_array($name, array('ODText', 'RTF', 'Word2007', 'HTML', 'PDF'), true)) {
+        if ($name !== 'WriterInterface' && !isset(self::$writers[$name])) {
             throw new Exception("\"{$name}\" is not a valid writer.");
         }
 
-        $fqName = "PhpOffice\\PhpWord\\Writer\\{$name}";
-
-        return new $fqName($phpWord);
+        return new self::$writers[$name]($phpWord);
     }
 
     /**
