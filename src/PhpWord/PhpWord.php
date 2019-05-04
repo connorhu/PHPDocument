@@ -20,6 +20,8 @@ namespace PhpOffice\PhpWord;
 use PhpOffice\PhpWord\Element\Section;
 use PhpOffice\PhpWord\Exception\Exception;
 
+use PhpOffice\PhpWord\Metadata;
+
 /**
  * PHPWord main class
  *
@@ -112,10 +114,13 @@ class PhpWord
         }
 
         // Metadata
-        $metadata = array('DocInfo', 'Settings', 'Compatibility');
-        foreach ($metadata as $meta) {
-            $class = 'PhpOffice\\PhpWord\\Metadata\\' . $meta;
-            $this->metadata[$meta] = new $class();
+        $metadata = [
+            Metadata\DocInfo::class,
+            Metadata\Settings::class,
+            Metadata\Compatibility::class
+        ];
+        foreach ($metadata as $class) {
+            $this->metadata[substr($class, strrpos($class, '\\')+1)] = new $class();
         }
     }
 
