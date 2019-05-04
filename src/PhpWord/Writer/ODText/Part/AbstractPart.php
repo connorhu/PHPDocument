@@ -98,12 +98,17 @@ abstract class AbstractPart extends Word2007AbstractPart
                 }
             }
         }
-        if (!in_array(Settings::getDefaultFontName(), $fontTable)) {
+        if (!in_array($this->getPhpWordSettings()->getDefaultFontName(), $fontTable)) {
             $xmlWriter->startElement('style:font-face');
-            $xmlWriter->writeAttribute('style:name', Settings::getDefaultFontName());
-            $xmlWriter->writeAttribute('svg:font-family', Settings::getDefaultFontName());
+            $xmlWriter->writeAttribute('style:name', $this->getPhpWordSettings()->getDefaultFontName());
+            $xmlWriter->writeAttribute('svg:font-family', $this->getPhpWordSettings()->getDefaultFontName());
             $xmlWriter->endElement();
         }
         $xmlWriter->endElement();
+    }
+    
+    protected function getPhpWordSettings() : Settings
+    {
+        return $this->getParentWriter()->getPhpWord()->getPhpWordSettings();
     }
 }

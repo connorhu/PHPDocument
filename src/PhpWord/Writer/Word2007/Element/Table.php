@@ -135,7 +135,7 @@ class Table extends AbstractElement
         }
 
         // Write content
-        $containerWriter = new Container($xmlWriter, $cell);
+        $containerWriter = new Container($this->phpWord, $xmlWriter, $cell);
         $containerWriter->write();
 
         $xmlWriter->endElement(); // w:tc

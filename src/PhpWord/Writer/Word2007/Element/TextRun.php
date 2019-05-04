@@ -34,7 +34,7 @@ class TextRun extends Text
 
         $this->startElementP();
 
-        $containerWriter = new Container($xmlWriter, $element);
+        $containerWriter = new Container($this->phpWord, $xmlWriter, $element);
         $containerWriter->write();
 
         $this->endElementP(); // w:p

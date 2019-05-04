@@ -60,7 +60,7 @@ class Document extends AbstractPart
             foreach ($sections as $section) {
                 $currentSection++;
 
-                $containerWriter = new Container($xmlWriter, $section);
+                $containerWriter = new Container($phpWord, $xmlWriter, $section);
                 $containerWriter->write();
 
                 if ($currentSection == $sectionCount) {

@@ -126,15 +126,15 @@ class Styles extends AbstractPart
             $normalStyle = $styles['Normal'];
             // w:pPr
             if ($normalStyle instanceof Fontstyle && $normalStyle->getParagraph() != null) {
-                $styleWriter = new ParagraphStyleWriter($xmlWriter, $normalStyle->getParagraph());
+                $styleWriter = new ParagraphStyleWriter($phpWord, $xmlWriter, $normalStyle->getParagraph());
                 $styleWriter->write();
             } elseif ($normalStyle instanceof ParagraphStyle) {
-                $styleWriter = new ParagraphStyleWriter($xmlWriter, $normalStyle);
+                $styleWriter = new ParagraphStyleWriter($phpWord, $xmlWriter, $normalStyle);
                 $styleWriter->write();
             }
 
             // w:rPr
-            $styleWriter = new FontStyleWriter($xmlWriter, $normalStyle);
+            $styleWriter = new FontStyleWriter($phpWord, $xmlWriter, $normalStyle);
             $styleWriter->write();
         }
         $xmlWriter->endElement(); // w:style

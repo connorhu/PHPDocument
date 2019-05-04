@@ -128,7 +128,7 @@ class Content extends AbstractPart
             $xmlWriter->startElement('text:section');
             $xmlWriter->writeAttribute('text:name', $name);
             $xmlWriter->writeAttribute('text:style-name', $name);
-            $containerWriter = new Container($xmlWriter, $section);
+            $containerWriter = new Container($this->getParentWriter()->getPhpWord(), $xmlWriter, $section);
             $containerWriter->write();
             $xmlWriter->endElement(); // text:section
         }
@@ -157,7 +157,7 @@ class Content extends AbstractPart
             $writerClass = 'PhpOffice\\PhpWord\\Writer\\ODText\\Style\\' . $element;
             foreach ($styles as $style) {
                 /** @var \PhpOffice\PhpWord\Writer\ODText\Style\AbstractStyle $styleWriter Type hint */
-                $styleWriter = new $writerClass($xmlWriter, $style);
+                $styleWriter = new $writerClass($this->getParentWriter()->getPhpWord(), $xmlWriter, $style);
                 $styleWriter->write();
             }
         }
@@ -180,7 +180,7 @@ class Content extends AbstractPart
                     $styleClass = str_replace('\\Style\\', '\\Writer\\ODText\\Style\\', get_class($style));
                     if (class_exists($styleClass)) {
                         /** @var \PhpOffice\PhpWord\Writer\ODText\Style\AbstractStyle $styleWriter Type hint */
-                        $styleWriter = new $styleClass($xmlWriter, $style);
+                        $styleWriter = new $styleClass($this->getParentWriter()->getPhpWord(), $xmlWriter, $style);
                         $styleWriter->write();
                     }
                     if ($style instanceof Paragraph) {
@@ -192,7 +192,7 @@ class Content extends AbstractPart
                 $style = new Paragraph();
                 $style->setStyleName('P1');
                 $style->setAuto();
-                $styleWriter = new ParagraphStyleWriter($xmlWriter, $style);
+                $styleWriter = new ParagraphStyleWriter($this->getParentWriter()->getPhpWord(), $xmlWriter, $style);
                 $styleWriter->write();
             }
         }

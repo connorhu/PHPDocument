@@ -18,6 +18,7 @@
 namespace PhpOffice\PhpWord\Writer\Word2007\Part;
 
 use PhpOffice\Common\XMLWriter;
+use PhpOffice\PhpWord\PhpWord;
 use PhpOffice\PhpWord\Exception\Exception;
 use PhpOffice\PhpWord\Settings;
 use PhpOffice\PhpWord\Writer\AbstractWriter;
@@ -84,10 +85,10 @@ abstract class AbstractPart
             }
         }
         if ($useDiskCaching) {
-            return new XMLWriter(XMLWriter::STORAGE_DISK, $this->parentWriter->getDiskCachingDirectory(), Settings::hasCompatibility());
+            return new XMLWriter(XMLWriter::STORAGE_DISK, $this->parentWriter->getDiskCachingDirectory(), $this->getPhpWordSettings()->hasCompatibility());
         }
 
-        return new XMLWriter(XMLWriter::STORAGE_MEMORY, './', Settings::hasCompatibility());
+        return new XMLWriter(XMLWriter::STORAGE_MEMORY, './', $this->getPhpWordSettings()->hasCompatibility());
     }
 
     /**
@@ -98,10 +99,15 @@ abstract class AbstractPart
      */
     protected function writeText($content)
     {
-        if (Settings::isOutputEscapingEnabled()) {
+        if ($this->getPhpWordSettings()->isOutputEscapingEnabled()) {
             return $this->getXmlWriter()->text($content);
         }
 
         return $this->getXmlWriter()->writeRaw($content);
+    }
+    
+    protected function getPhpWordSettings() : Settings
+    {
+        return $this->getParentWriter()->getPhpWord()->getPhpWordSettings();
     }
 }

@@ -56,7 +56,7 @@ class ListItemRun extends AbstractElement
 
         $xmlWriter->endElement(); // w:pPr
 
-        $containerWriter = new Container($xmlWriter, $element);
+        $containerWriter = new Container($this->phpWord, $xmlWriter, $element);
         $containerWriter->write();
 
         $xmlWriter->endElement(); // w:p

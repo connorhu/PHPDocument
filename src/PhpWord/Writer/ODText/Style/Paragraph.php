@@ -120,7 +120,7 @@ class Paragraph extends AbstractStyle
         $xmlWriter->endElement(); //style:paragraph-properties
 
         if ($style->getFont()) {
-            $writer = new \PhpOffice\PhpWord\Writer\ODText\Style\Font($xmlWriter, $style->getFont());
+            $writer = new \PhpOffice\PhpWord\Writer\ODText\Style\Font($this->phpWord, $xmlWriter, $style->getFont());
             $writer->write();
         }
 

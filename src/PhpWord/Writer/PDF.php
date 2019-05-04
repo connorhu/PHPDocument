@@ -44,8 +44,8 @@ class PDF
      */
     public function __construct(PhpWord $phpWord)
     {
-        $pdfLibraryName = Settings::getPdfRendererName();
-        $pdfLibraryPath = Settings::getPdfRendererPath();
+        $pdfLibraryName = $phpWord->getPhpWordSettings()->getPdfRendererName();
+        $pdfLibraryPath = $phpWord->getPhpWordSettings()->getPdfRendererPath();
         if (is_null($pdfLibraryName) || is_null($pdfLibraryPath)) {
             throw new Exception('PDF rendering library or library path has not been defined.');
         }

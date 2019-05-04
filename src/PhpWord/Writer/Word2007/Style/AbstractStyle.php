@@ -18,6 +18,7 @@
 namespace PhpOffice\PhpWord\Writer\Word2007\Style;
 
 use PhpOffice\Common\XMLWriter;
+use PhpOffice\PhpWord\PhpWord;
 use PhpOffice\PhpWord\Settings;
 
 /**
@@ -42,6 +43,13 @@ abstract class AbstractStyle
     protected $style;
 
     /**
+     * 
+     *
+     * @var \PhpOffice\PhpWord
+     */
+    protected $phpWord;
+
+    /**
      * Write style
      */
     abstract public function write();
@@ -51,11 +59,13 @@ abstract class AbstractStyle
      *
      * @param \PhpOffice\Common\XMLWriter $xmlWriter
      * @param string|\PhpOffice\PhpWord\Style\AbstractStyle $style
+     * @param \PhpOffice\PhpWord $phpWord
      */
-    public function __construct(XMLWriter $xmlWriter, $style = null)
+    public function __construct(PhpWord $phpWord, XMLWriter $xmlWriter, $style = null)
     {
         $this->xmlWriter = $xmlWriter;
         $this->style = $style;
+        $this->phpWord = $phpWord;
     }
 
     /**
@@ -94,7 +104,7 @@ abstract class AbstractStyle
             Settings::UNIT_POINT => 20,
             Settings::UNIT_PICA  => 240,
         );
-        $unit = Settings::getMeasurementUnit();
+        $unit = $this->getPhpWordSettings()->getMeasurementUnit();
         $factor = 1;
         if (in_array($unit, $factors) && $value != $default) {
             $factor = $factors[$unit];
@@ -116,7 +126,7 @@ abstract class AbstractStyle
             $class = 'PhpOffice\\PhpWord\\Writer\\Word2007\\Style\\' . $name;
 
             /** @var \PhpOffice\PhpWord\Writer\Word2007\Style\AbstractStyle $writer */
-            $writer = new $class($xmlWriter, $value);
+            $writer = new $class($this->phpWord, $xmlWriter, $value);
             $writer->write();
         }
     }
@@ -152,5 +162,10 @@ abstract class AbstractStyle
         }
 
         return trim($style);
+    }
+    
+    protected function getPhpWordSettings() : Settings
+    {
+        return $this->getPhpWord()->getPhpWordSettings();
     }
 }

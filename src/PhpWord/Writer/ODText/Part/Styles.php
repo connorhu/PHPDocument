@@ -87,20 +87,21 @@ class Styles extends AbstractPart
         $asianLang = $language != null && is_string($language->getEastAsia()) ? explode('-', $language->getEastAsia()) : array('zh', 'CN');
         $complexLang = $language != null && is_string($language->getBidirectional()) ? explode('-', $language->getBidirectional()) : array('hi', 'IN');
 
+        $settings = $this->getPhpWordSettings();
         // Font
         $xmlWriter->startElement('style:text-properties');
         $xmlWriter->writeAttribute('style:use-window-font-color', 'true');
-        $xmlWriter->writeAttribute('style:font-name', Settings::getDefaultFontName());
-        $xmlWriter->writeAttribute('fo:font-size', Settings::getDefaultFontSize() . 'pt');
+        $xmlWriter->writeAttribute('style:font-name', $settings->getDefaultFontName());
+        $xmlWriter->writeAttribute('fo:font-size', $settings->getDefaultFontSize() . 'pt');
         $xmlWriter->writeAttribute('fo:language', $latinLang[0]);
         $xmlWriter->writeAttribute('fo:country', $latinLang[1]);
         $xmlWriter->writeAttribute('style:letter-kerning', 'true');
-        $xmlWriter->writeAttribute('style:font-name-asian', Settings::getDefaultFontName() . '2');
-        $xmlWriter->writeAttribute('style:font-size-asian', Settings::getDefaultFontSize() . 'pt');
+        $xmlWriter->writeAttribute('style:font-name-asian', $settings->getDefaultFontName() . '2');
+        $xmlWriter->writeAttribute('style:font-size-asian', $settings->getDefaultFontSize() . 'pt');
         $xmlWriter->writeAttribute('style:language-asian', $asianLang[0]);
         $xmlWriter->writeAttribute('style:country-asian', $asianLang[1]);
-        $xmlWriter->writeAttribute('style:font-name-complex', Settings::getDefaultFontName() . '2');
-        $xmlWriter->writeAttribute('style:font-size-complex', Settings::getDefaultFontSize() . 'pt');
+        $xmlWriter->writeAttribute('style:font-name-complex', $settings->getDefaultFontName() . '2');
+        $xmlWriter->writeAttribute('style:font-size-complex', $settings->getDefaultFontSize() . 'pt');
         $xmlWriter->writeAttribute('style:language-complex', $complexLang[0]);
         $xmlWriter->writeAttribute('style:country-complex', $complexLang[1]);
         $xmlWriter->writeAttribute('fo:hyphenate', 'false');

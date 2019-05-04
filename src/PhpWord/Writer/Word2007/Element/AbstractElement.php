@@ -20,6 +20,7 @@ namespace PhpOffice\PhpWord\Writer\Word2007\Element;
 use PhpOffice\Common\Text as CommonText;
 use PhpOffice\Common\XMLWriter;
 use PhpOffice\PhpWord\Element\AbstractElement as Element;
+use PhpOffice\PhpWord\PhpWord;
 use PhpOffice\PhpWord\Settings;
 
 /**
@@ -58,12 +59,14 @@ abstract class AbstractElement
     /**
      * Create new instance
      *
+     * @param \PhpOffice\Common\PhpWord $phpWord
      * @param \PhpOffice\Common\XMLWriter $xmlWriter
      * @param \PhpOffice\PhpWord\Element\AbstractElement $element
      * @param bool $withoutP
      */
-    public function __construct(XMLWriter $xmlWriter, Element $element, $withoutP = false)
+    public function __construct(PhpWord $phpWord, XMLWriter $xmlWriter, Element $element, $withoutP = false)
     {
+        $this->phpWord = $phpWord;
         $this->xmlWriter = $xmlWriter;
         $this->element = $element;
         $this->withoutP = $withoutP;
@@ -218,7 +221,7 @@ abstract class AbstractElement
      */
     protected function writeText($content)
     {
-        if (Settings::isOutputEscapingEnabled()) {
+        if ($this->phpWord->getPhpWordSettings()->isOutputEscapingEnabled()) {
             return $this->getXmlWriter()->text($content);
         }
 

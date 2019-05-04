@@ -58,7 +58,7 @@ class TextBox extends Image
 
         // TextBox content, serving as a container
         $xmlWriter->startElement('w:txbxContent');
-        $containerWriter = new Container($xmlWriter, $element);
+        $containerWriter = new Container($this->phpWord, $xmlWriter, $element);
         $containerWriter->write();
         $xmlWriter->endElement(); // w:txbxContent
 

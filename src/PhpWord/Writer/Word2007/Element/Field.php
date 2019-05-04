@@ -73,7 +73,7 @@ class Field extends Text
 
         if ($element->getText() != null) {
             if ($element->getText() instanceof \PhpOffice\PhpWord\Element\TextRun) {
-                $containerWriter = new Container($xmlWriter, $element->getText(), true);
+                $containerWriter = new Container($this->phpWord, $xmlWriter, $element->getText(), true);
                 $containerWriter->write();
 
                 $xmlWriter->startElement('w:r');
@@ -145,7 +145,7 @@ class Field extends Text
 
         if ($element->getText() != null) {
             if ($element->getText() instanceof \PhpOffice\PhpWord\Element\TextRun) {
-                $containerWriter = new Container($xmlWriter, $element->getText(), true);
+                $containerWriter = new Container($phpWord, $xmlWriter, $element->getText(), true);
                 $containerWriter->write();
             }
         }

@@ -63,7 +63,7 @@ class Container extends AbstractElement
         if ($writeLastTextBreak) {
             $writerClass = $this->namespace . '\\TextBreak';
             /** @var \PhpOffice\PhpWord\Writer\Word2007\Element\AbstractElement $writer Type hint */
-            $writer = new $writerClass($xmlWriter, new TextBreakElement(), $withoutP);
+            $writer = new $writerClass($this->phpWord, $xmlWriter, new TextBreakElement(), $withoutP);
             $writer->write();
         }
     }
@@ -83,7 +83,7 @@ class Container extends AbstractElement
 
         if (class_exists($writerClass)) {
             /** @var \PhpOffice\PhpWord\Writer\Word2007\Element\AbstractElement $writer Type hint */
-            $writer = new $writerClass($xmlWriter, $element, $withoutP);
+            $writer = new $writerClass($this->phpWord, $xmlWriter, $element, $withoutP);
             $writer->write();
         }
 

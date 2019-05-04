@@ -88,6 +88,12 @@ class PhpWord
     private $metadata = array();
 
     /**
+     * Setting
+     *
+     * @var Settings
+     */
+    private $settings;
+
      * Create new instance
      *
      * Collections are created dynamically
@@ -96,7 +102,7 @@ class PhpWord
     {
         // Reset Media and styles
         Media::resetElements();
-        Style::resetStyles();
+        $this->settings = new Settings();
 
         // Collection
         $collections = array('Bookmarks', 'Titles', 'Footnotes', 'Endnotes', 'Charts', 'Comments');
@@ -285,7 +291,7 @@ class PhpWord
      */
     public function getDefaultFontName()
     {
-        return Settings::getDefaultFontName();
+        return $this->settings->getDefaultFontName();
     }
 
     /**
@@ -295,7 +301,7 @@ class PhpWord
      */
     public function setDefaultFontName($fontName)
     {
-        Settings::setDefaultFontName($fontName);
+        $this->settings->setDefaultFontName($fontName);
     }
 
     /**
@@ -305,7 +311,7 @@ class PhpWord
      */
     public function getDefaultFontSize()
     {
-        return Settings::getDefaultFontSize();
+        return $this->settings->getDefaultFontSize();
     }
 
     /**
@@ -315,7 +321,7 @@ class PhpWord
      */
     public function setDefaultFontSize($fontSize)
     {
-        Settings::setDefaultFontSize($fontSize);
+        $this->settings->setDefaultFontSize($fontSize);
     }
 
     /**
@@ -433,5 +439,10 @@ class PhpWord
         $this->metadata['Document'] = $documentProperties;
 
         return $this;
+    }
+    
+    public function getPhpWordSettings() : Settings
+    {
+        return $this->settings;
     }
 }

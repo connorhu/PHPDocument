@@ -67,48 +67,48 @@ class Settings
      *
      * @var bool
      */
-    private static $xmlWriterCompatibility = true;
+    private $xmlWriterCompatibility = true;
 
     /**
      * Name of the external Library used for rendering PDF files
      *
      * @var string
      */
-    private static $pdfRendererName = null;
+    private $pdfRendererName = null;
 
     /**
      * Directory Path to the external Library used for rendering PDF files
      *
      * @var string
      */
-    private static $pdfRendererPath = null;
+    private $pdfRendererPath = null;
 
     /**
      * Measurement unit
      *
      * @var int|float
      */
-    private static $measurementUnit = self::UNIT_TWIP;
+    private $measurementUnit = self::UNIT_TWIP;
 
     /**
      * Default font name
      *
      * @var string
      */
-    private static $defaultFontName = self::DEFAULT_FONT_NAME;
+    private $defaultFontName = self::DEFAULT_FONT_NAME;
 
     /**
      * Default font size
      * @var int
      */
-    private static $defaultFontSize = self::DEFAULT_FONT_SIZE;
+    private $defaultFontSize = self::DEFAULT_FONT_SIZE;
 
     /**
      * The user defined temporary directory.
      *
      * @var string
      */
-    private static $tempDir = '';
+    private $tempDir = '';
 
     /**
      * Enables built-in output escaping mechanism.
@@ -116,16 +116,16 @@ class Settings
      *
      * @var bool
      */
-    private static $outputEscapingEnabled = false;
+    private $outputEscapingEnabled = false;
 
     /**
      * Return the compatibility option used by the XMLWriter
      *
      * @return bool Compatibility
      */
-    public static function hasCompatibility()
+    public function hasCompatibility()
     {
-        return self::$xmlWriterCompatibility;
+        return $this->xmlWriterCompatibility;
     }
 
     /**
@@ -136,10 +136,10 @@ class Settings
      * @param bool $compatibility
      * @return bool
      */
-    public static function setCompatibility($compatibility)
+    public function setCompatibility($compatibility)
     {
         $compatibility = (bool) $compatibility;
-        self::$xmlWriterCompatibility = $compatibility;
+        $this->xmlWriterCompatibility = $compatibility;
 
         return true;
     }
@@ -151,7 +151,7 @@ class Settings
      * @param string $libraryBaseDir
      * @return bool Success or failure
      */
-    public static function setPdfRenderer($libraryName, $libraryBaseDir)
+    public function setPdfRenderer($libraryName, $libraryBaseDir)
     {
         if (!self::setPdfRendererName($libraryName)) {
             return false;
@@ -165,9 +165,9 @@ class Settings
      *
      * @return string
      */
-    public static function getPdfRendererName()
+    public function getPdfRendererName()
     {
-        return self::$pdfRendererName;
+        return $this->pdfRendererName;
     }
 
     /**
@@ -176,13 +176,13 @@ class Settings
      * @param string $libraryName
      * @return bool
      */
-    public static function setPdfRendererName($libraryName)
+    public function setPdfRendererName($libraryName)
     {
         $pdfRenderers = array(self::PDF_RENDERER_DOMPDF, self::PDF_RENDERER_TCPDF, self::PDF_RENDERER_MPDF);
         if (!in_array($libraryName, $pdfRenderers)) {
             return false;
         }
-        self::$pdfRendererName = $libraryName;
+        $this->pdfRendererName = $libraryName;
 
         return true;
     }
@@ -192,9 +192,9 @@ class Settings
      *
      * @return string
      */
-    public static function getPdfRendererPath()
+    public function getPdfRendererPath()
     {
-        return self::$pdfRendererPath;
+        return $this->pdfRendererPath;
     }
 
     /**
@@ -203,12 +203,12 @@ class Settings
      * @param string $libraryBaseDir Directory path to the library's base folder
      * @return bool Success or failure
      */
-    public static function setPdfRendererPath($libraryBaseDir)
+    public function setPdfRendererPath($libraryBaseDir)
     {
         if (false === file_exists($libraryBaseDir) || false === is_readable($libraryBaseDir)) {
             return false;
         }
-        self::$pdfRendererPath = $libraryBaseDir;
+        $this->pdfRendererPath = $libraryBaseDir;
 
         return true;
     }
@@ -218,9 +218,9 @@ class Settings
      *
      * @return string
      */
-    public static function getMeasurementUnit()
+    public function getMeasurementUnit()
     {
-        return self::$measurementUnit;
+        return $this->measurementUnit;
     }
 
     /**
@@ -229,14 +229,14 @@ class Settings
      * @param string $value
      * @return bool
      */
-    public static function setMeasurementUnit($value)
+    public function setMeasurementUnit($value)
     {
         $units = array(self::UNIT_TWIP, self::UNIT_CM, self::UNIT_MM, self::UNIT_INCH,
             self::UNIT_POINT, self::UNIT_PICA, );
         if (!in_array($value, $units)) {
             return false;
         }
-        self::$measurementUnit = $value;
+        $this->measurementUnit = $value;
 
         return true;
     }
@@ -248,9 +248,9 @@ class Settings
      *
      * @param string $tempDir The user defined path to temporary directory
      */
-    public static function setTempDir($tempDir)
+    public function setTempDir($tempDir)
     {
-        self::$tempDir = $tempDir;
+        $this->tempDir = $tempDir;
     }
 
     /**
@@ -260,10 +260,10 @@ class Settings
      *
      * @return string
      */
-    public static function getTempDir()
+    public function getTempDir()
     {
-        if (!empty(self::$tempDir)) {
-            $tempDir = self::$tempDir;
+        if (!empty($this->tempDir)) {
+            $tempDir = $this->tempDir;
         } else {
             $tempDir = sys_get_temp_dir();
         }
@@ -276,9 +276,9 @@ class Settings
      *
      * @return bool
      */
-    public static function isOutputEscapingEnabled()
+    public function isOutputEscapingEnabled()
     {
-        return self::$outputEscapingEnabled;
+        return $this->outputEscapingEnabled;
     }
 
     /**
@@ -286,9 +286,9 @@ class Settings
      *
      * @param bool $outputEscapingEnabled
      */
-    public static function setOutputEscapingEnabled($outputEscapingEnabled)
+    public function setOutputEscapingEnabled($outputEscapingEnabled)
     {
-        self::$outputEscapingEnabled = $outputEscapingEnabled;
+        $this->outputEscapingEnabled = $outputEscapingEnabled;
     }
 
     /**
@@ -296,9 +296,9 @@ class Settings
      *
      * @return string
      */
-    public static function getDefaultFontName()
+    public function getDefaultFontName()
     {
-        return self::$defaultFontName;
+        return $this->defaultFontName;
     }
 
     /**
@@ -307,10 +307,10 @@ class Settings
      * @param string $value
      * @return bool
      */
-    public static function setDefaultFontName($value)
+    public function setDefaultFontName($value)
     {
         if (is_string($value) && trim($value) !== '') {
-            self::$defaultFontName = $value;
+            $this->defaultFontName = $value;
 
             return true;
         }
@@ -323,9 +323,9 @@ class Settings
      *
      * @return int
      */
-    public static function getDefaultFontSize()
+    public function getDefaultFontSize()
     {
-        return self::$defaultFontSize;
+        return $this->defaultFontSize;
     }
 
     /**
@@ -334,11 +334,11 @@ class Settings
      * @param int $value
      * @return bool
      */
-    public static function setDefaultFontSize($value)
+    public function setDefaultFontSize($value)
     {
         $value = (int) $value;
         if ($value > 0) {
-            self::$defaultFontSize = $value;
+            $this->defaultFontSize = $value;
 
             return true;
         }
@@ -349,10 +349,11 @@ class Settings
     /**
      * Load setting from phpword.yml or phpword.yml.dist
      *
+     * @todo refactor: config reader, config file types: ini, yml, xml, json
      * @param string $filename
      * @return array
      */
-    public static function loadConfig($filename = null)
+    public function loadConfig($filename = null)
     {
         // Get config file
         $configFile = null;
@@ -382,7 +383,7 @@ class Settings
         foreach ($config as $key => $value) {
             $method = "set{$key}";
             if (method_exists(__CLASS__, $method)) {
-                self::$method($value);
+                $this->{$method}($value);
             }
         }
 
@@ -396,8 +397,10 @@ class Settings
      *
      * @codeCoverageIgnore
      */
-    public static function getCompatibility()
+    public function getCompatibility()
     {
+        @trigger_error('getCompatibility method deprecated. use hasCompatibility method instead', E_USER_DEPRECATED);
+
         return self::hasCompatibility();
     }
 }

@@ -216,12 +216,13 @@ abstract class AbstractWriter implements WriterInterface
     protected function getTempFile($filename)
     {
         // Temporary directory
-        $this->setTempDir(Settings::getTempDir() . uniqid('/PHPWordWriter_', true) . '/');
+        $temporaryDir = $this->phpWord->getPhpWordSettings()->getTempDir();
+        $this->setTempDir($temporaryDir . uniqid('/PHPWordWriter_', true) . '/');
 
         // Temporary file
         $this->originalFilename = $filename;
         if (strpos(strtolower($filename), 'php://') === 0) {
-            $filename = tempnam(Settings::getTempDir(), 'PhpWord');
+            $filename = tempnam($temporaryDir, 'PhpWord');
             if (false === $filename) {
                 $filename = $this->originalFilename; // @codeCoverageIgnore
             } // @codeCoverageIgnore

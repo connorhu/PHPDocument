@@ -59,7 +59,7 @@ class ListItem extends AbstractElement
 
         $xmlWriter->endElement(); // w:pPr
 
-        $elementWriter = new Text($xmlWriter, $textObject, true);
+        $elementWriter = new Text($this->phpWord, $xmlWriter, $textObject, true);
         $elementWriter->write();
 
         $xmlWriter->endElement(); // w:p
