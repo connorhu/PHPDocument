@@ -111,7 +111,7 @@ class ZipArchive
         // See https://github.com/scrutinizer-ci/php-analyzer/issues/190
         $this->numFiles = $zip->numFiles;
 
-        return $result;
+        return $result === true;
     }
 
     /**
@@ -132,6 +132,8 @@ class ZipArchive
         if ($this->zip->close() === false) {
             throw new Exception("Could not close zip file {$this->filename}: ");
         }
+        
+        return true;
     }
 
     /**
