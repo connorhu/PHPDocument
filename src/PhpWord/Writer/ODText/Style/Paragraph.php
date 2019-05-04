@@ -18,6 +18,7 @@
 namespace PhpOffice\PhpWord\Writer\ODText\Style;
 
 use PhpOffice\PhpWord\Shared\Converter;
+use PhpOffice\PhpWord\Style;
 
 /**
  * Font style writer
@@ -48,6 +49,10 @@ class Paragraph extends AbstractStyle
         if ($style->isAuto()) {
             $xmlWriter->writeAttribute('style:parent-style-name', 'Standard');
             $xmlWriter->writeAttribute('style:master-page-name', 'Standard');
+        } else {
+            if ($style->getBreakPosition() !== Style\Paragraph::BREAK_POSITION_UNSET && $style->getBreakKind() === Style\Paragraph::BREAK_KIND_PAGE && $style->getPageStyle() !== null) {
+                $xmlWriter->writeAttribute('style:master-page-name', $style->getPageStyle());
+            }
         }
 
         $xmlWriter->startElement('style:paragraph-properties');
@@ -65,7 +70,7 @@ class Paragraph extends AbstractStyle
                 $xmlWriter->writeAttribute('fo:line-height', $style->getLineHeight() . '%');
             }
 
-            if ($style->getJustifySingleWord() !== null) {
+            if ($style->isJustifySingleWord() !== null) {
                 $xmlWriter->writeAttribute('style:justify-single-word', $style->isJustifySingleWord() ? 'true' : 'false');
             }
 
@@ -77,6 +82,16 @@ class Paragraph extends AbstractStyle
 
             if ($style->getIndent() !== null) {
                 $xmlWriter->writeAttribute('fo:text-indent', Converter::twipToInch($style->getIndent()) . 'in');
+            }
+
+            if ($style->getBreakPosition() !== Style\Paragraph::BREAK_POSITION_UNSET) {
+                $attributeName = 'fo:break-' . $style->getBreakPosition();
+
+                $xmlWriter->writeAttribute($attributeName, $style->getBreakKind());
+
+                if ($style->getBreakKind() === Style\Paragraph::BREAK_KIND_PAGE && $style->getPageNumber() !== null) {
+                    $xmlWriter->writeAttribute('style:page-number', $style->getPageNumber());
+                }
             }
         }
 

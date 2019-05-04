@@ -129,8 +129,42 @@ class Paragraph extends Border
      * Start paragraph on next page
      *
      * @var bool
+     * @deprecated
      */
     private $pageBreakBefore = false;
+
+    const BREAK_POSITION_UNSET = null;
+    const BREAK_POSITION_BEFORE = 'before';
+    const BREAK_POSITION_AFTER = 'after';
+
+    /**
+     * @var string
+     */
+    private $breakPosition = self::BREAK_POSITION_UNSET;
+
+    const BREAK_KIND_PAGE = 'page';
+    const BREAK_KIND_COLUMN = 'column';
+
+    /**
+     * @var string
+     */
+    private $breakKind = self::BREAK_KIND_PAGE;
+
+    /**
+     * Page style on page break insertion
+     *
+     * @var string
+     */
+    private $pageStyle;
+
+    /**
+     * Page style on page break insertion.
+     * ODF tag: style:page-number
+     *
+     * @see http://docs.oasis-open.org/office/v1.2/os/OpenDocument-v1.2-os-part1.html#__RefHeading__1420088_253892949 style:page-number in ODF scheme
+     * @var string
+     */
+    private $pageNumber;
 
     /**
      * Numbering style name
@@ -696,6 +730,8 @@ class Paragraph extends Border
      */
     public function hasPageBreakBefore()
     {
+        @trigger_error('hasPageBreakBefore method deprecated. use ... instead', E_USER_DEPRECATED);
+
         return $this->pageBreakBefore;
     }
 
@@ -707,6 +743,8 @@ class Paragraph extends Border
      */
     public function setPageBreakBefore($value = true)
     {
+        @trigger_error('setPageBreakBefore method deprecated. use ... instead', E_USER_DEPRECATED);
+
         $this->pageBreakBefore = $this->setBoolVal($value, $this->pageBreakBefore);
 
         return $this;
@@ -1007,6 +1045,98 @@ class Paragraph extends Border
     public function setHyphenationLadderCount($value)
     {
         $this->hyphenationLadderCount = $value !== null ? $this->setPositiveIntVal($value, $this->hyphenationLadderCount) : null;
+
+        return $this;
+    }
+
+    /**
+     * getter for breakPosition
+     *
+     * @return string|null
+     */
+    public function getBreakPosition()
+    {
+        return $this->breakPosition;
+    }
+
+    /**
+     * setter for breakPosition
+     *
+     * @param string|null $value
+     * @return self
+     */
+    public function setBreakPosition($value)
+    {
+        $this->breakPosition = self::setEnumVal($value, array(self::BREAK_POSITION_UNSET, self::BREAK_POSITION_BEFORE, self::BREAK_POSITION_AFTER), $this->breakPosition);
+
+        return $this;
+    }
+
+    /**
+     * getter for breakKind
+     *
+     * @return mixed return value for
+     */
+    public function getBreakKind()
+    {
+        return $this->breakKind;
+    }
+
+    /**
+     * setter for breakKind
+     *
+     * @param mixed $value
+     * @return self
+     */
+    public function setBreakKind($value)
+    {
+        $this->breakKind = self::setEnumVal($value, array(self::BREAK_KIND_PAGE, self::BREAK_KIND_COLUMN), $this->breakKind);
+
+        return $this;
+    }
+
+    /**
+     * getter for pageStyle
+     *
+     * @return mixed return value for
+     */
+    public function getPageStyle()
+    {
+        return $this->pageStyle;
+    }
+
+    /**
+     * setter for pageStyle
+     *
+     * @param mixed $value
+     * @return self
+     */
+    public function setPageStyle($value)
+    {
+        $this->pageStyle = $value;
+
+        return $this;
+    }
+
+    /**
+     * getter for pageNumber
+     *
+     * @return mixed return value for
+     */
+    public function getPageNumber()
+    {
+        return $this->pageNumber;
+    }
+
+    /**
+     * setter for pageNumber
+     *
+     * @param mixed $value
+     * @return self
+     */
+    public function setPageNumber($value)
+    {
+        $this->pageNumber = self::setPositiveIntVal($value, $this->pageNumber);
 
         return $this;
     }
