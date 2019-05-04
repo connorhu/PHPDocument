@@ -23,8 +23,10 @@ use PhpOffice\PhpWord\SimpleType\VerticalJc;
 /**
  * Table cell style
  */
-class Cell extends Border
+class Cell extends AbstractStyle
 {
+    use Traits\Border;
+
     /**
      * Vertical alignment constants
      *

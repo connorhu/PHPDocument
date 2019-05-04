@@ -22,8 +22,10 @@ use PhpOffice\PhpWord\SimpleType\Jc;
 use PhpOffice\PhpWord\SimpleType\JcTable;
 use PhpOffice\PhpWord\SimpleType\TblWidth;
 
-class Table extends Border
+class Table extends AbstractStyle
 {
+    use Traits\Border;
+
     /**
      * @deprecated Use \PhpOffice\PhpWord\SimpleType\TblWidth::AUTO instead
      */

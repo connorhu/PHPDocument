@@ -22,8 +22,10 @@ use PhpOffice\PhpWord\SimpleType\VerticalJc;
 /**
  * Section settings
  */
-class Section extends Border
+class Section extends AbstractStyle
 {
+    use Traits\Border;
+
     /**
      * Page orientation
      *

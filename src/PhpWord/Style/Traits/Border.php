@@ -15,12 +15,12 @@
  * @license     http://www.gnu.org/licenses/lgpl.txt LGPL version 3
  */
 
-namespace PhpOffice\PhpWord\Style;
+namespace PhpOffice\PhpWord\Style\Traits;
 
 /**
- * Border style
+ * Border trait
  */
-class Border extends AbstractStyle
+trait Border
 {
     /**
      * Border Top Size

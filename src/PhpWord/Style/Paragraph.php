@@ -50,8 +50,10 @@ use PhpOffice\PhpWord\SimpleType\TextAlignment;
  *
  * @see  http://www.schemacentral.com/sc/ooxml/t-w_CT_PPr.html
  */
-class Paragraph extends Border
+class Paragraph extends AbstractStyle
 {
+    use Traits\Border;
+
     /**
      * @const int One line height equals 240 twip
      */
