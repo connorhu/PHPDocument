@@ -741,7 +741,7 @@ class Paragraph extends AbstractStyle
      */
     public function hasPageBreakBefore()
     {
-        @trigger_error('hasPageBreakBefore method deprecated. use ... instead', E_USER_DEPRECATED);
+        @trigger_error('hasPageBreakBefore method deprecated. use other break methods instead', E_USER_DEPRECATED);
 
         return $this->pageBreakBefore;
     }
@@ -754,7 +754,7 @@ class Paragraph extends AbstractStyle
      */
     public function setPageBreakBefore($value = true)
     {
-        @trigger_error('setPageBreakBefore method deprecated. use ... instead', E_USER_DEPRECATED);
+        @trigger_error('setPageBreakBefore method deprecated. use other break methods instead', E_USER_DEPRECATED);
 
         $this->pageBreakBefore = $this->setBoolVal($value, $this->pageBreakBefore);
 
