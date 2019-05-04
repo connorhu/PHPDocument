@@ -205,12 +205,24 @@ class PhpWord
     }
 
     /**
-     * Get compatibility
+     * Get document settings
      *
      * @return \PhpOffice\PhpWord\Metadata\Settings
+     * @deprecated
      * @since 0.14.0
      */
     public function getSettings()
+    {
+        @trigger_error('getProtection method deprecated. use PhpWord->getSettings()->getDocumentProtection() method instead', E_USER_DEPRECATED);
+        return $this->getDocumentSettings();
+    }
+    
+    /**
+     * Get document settings
+     *
+     * @return \PhpOffice\PhpWord\Metadata\Settings
+     */
+    public function getDocumentSettings() : Metadata\Settings
     {
         return $this->metadata['Settings'];
     }

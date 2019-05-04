@@ -43,8 +43,6 @@ class Settings extends AbstractPart
      */
     public function write()
     {
-        $this->getSettings();
-
         $xmlWriter = $this->getXmlWriter();
 
         $xmlWriter->startDocument('1.0', 'UTF-8', 'yes');
@@ -100,7 +98,7 @@ class Settings extends AbstractPart
     private function getSettings()
     {
         /** @var \PhpOffice\PhpWord\Metadata\Settings $documentSettings */
-        $documentSettings = $this->getParentWriter()->getPhpWord()->getSettings();
+        $documentSettings = $this->getParentWriter()->getPhpWord()->getDocumentSettings();
 
         // Default settings
         $this->settings = array(

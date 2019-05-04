@@ -90,7 +90,7 @@ class Document extends AbstractPart
      */
     private function writeFormatting()
     {
-        $docSettings = $this->getParentWriter()->getPhpWord()->getSettings();
+        $docSettings = $this->getParentWriter()->getPhpWord()->getDocumentSettings();
         // Applies a language to a text run (defaults to 1036 : French (France))
         $langId = $docSettings->getThemeFontLang() != null && $docSettings->getThemeFontLang()->getLangId() != null ? $docSettings->getThemeFontLang()->getLangId() : 1036;
 

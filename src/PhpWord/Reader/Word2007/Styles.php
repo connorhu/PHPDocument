@@ -48,7 +48,7 @@ class Styles extends AbstractPart
                 $phpWord->setDefaultFontSize($fontDefaultStyle['size']);
             }
             if (array_key_exists('lang', $fontDefaultStyle)) {
-                $phpWord->getSettings()->setThemeFontLang(new Language($fontDefaultStyle['lang']));
+                $phpWord->getDocumentSettings()->setThemeFontLang(new Language($fontDefaultStyle['lang']));
             }
         }
 

@@ -82,7 +82,7 @@ class Styles extends AbstractPart
         $xmlWriter->writeAttribute('style:writing-mode', 'page');
         $xmlWriter->endElement(); // style:paragraph-properties
 
-        $language = $this->getParentWriter()->getPhpWord()->getSettings()->getThemeFontLang();
+        $language = $this->getParentWriter()->getPhpWord()->getDocumentSettings()->getThemeFontLang();
         $latinLang = $language != null && is_string($language->getLatin()) ? explode('-', $language->getLatin()) : array('fr', 'FR');
         $asianLang = $language != null && is_string($language->getEastAsia()) ? explode('-', $language->getEastAsia()) : array('zh', 'CN');
         $complexLang = $language != null && is_string($language->getBidirectional()) ? explode('-', $language->getBidirectional()) : array('hi', 'IN');

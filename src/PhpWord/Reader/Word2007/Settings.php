@@ -52,7 +52,7 @@ class Settings extends AbstractPart
         $xmlReader = new XMLReader();
         $xmlReader->getDomFromZip($this->docFile, $this->xmlFile);
 
-        $docSettings = $phpWord->getSettings();
+        $docSettings = $phpWord->getDocumentSettings();
 
         $nodes = $xmlReader->getElements('*');
         if ($nodes->length > 0) {
@@ -94,7 +94,7 @@ class Settings extends AbstractPart
         $themeFontLang->setEastAsia($eastAsia);
         $themeFontLang->setBidirectional($bidi);
 
-        $phpWord->getSettings()->setThemeFontLang($themeFontLang);
+        $phpWord->getDocumentSettings()->setThemeFontLang($themeFontLang);
     }
 
     /**
@@ -106,7 +106,7 @@ class Settings extends AbstractPart
      */
     protected function setDocumentProtection(XMLReader $xmlReader, PhpWord $phpWord, \DOMElement $node)
     {
-        $documentProtection = $phpWord->getSettings()->getDocumentProtection();
+        $documentProtection = $phpWord->getDocumentSettings()->getDocumentProtection();
 
         $edit = $xmlReader->getAttribute('w:edit', $node);
         if ($edit !== null) {
@@ -123,7 +123,7 @@ class Settings extends AbstractPart
      */
     protected function setProofState(XMLReader $xmlReader, PhpWord $phpWord, \DOMElement $node)
     {
-        $proofState = $phpWord->getSettings()->getProofState();
+        $proofState = $phpWord->getDocumentSettings()->getProofState();
 
         $spelling = $xmlReader->getAttribute('w:spelling', $node);
         $grammar = $xmlReader->getAttribute('w:grammar', $node);
@@ -149,7 +149,7 @@ class Settings extends AbstractPart
         $val = $xmlReader->getAttribute('w:val', $node);
 
         if ($percent !== null || $val !== null) {
-            $phpWord->getSettings()->setZoom($percent === null ? $val : $percent);
+            $phpWord->getDocumentSettings()->setZoom($percent === null ? $val : $percent);
         }
     }
 
@@ -168,7 +168,7 @@ class Settings extends AbstractPart
         $revisionView->setInsDel(filter_var($xmlReader->getAttribute('w:insDel', $node), FILTER_VALIDATE_BOOLEAN));
         $revisionView->setFormatting(filter_var($xmlReader->getAttribute('w:formatting', $node), FILTER_VALIDATE_BOOLEAN));
         $revisionView->setInkAnnotations(filter_var($xmlReader->getAttribute('w:inkAnnotations', $node), FILTER_VALIDATE_BOOLEAN));
-        $phpWord->getSettings()->setRevisionView($revisionView);
+        $phpWord->getDocumentSettings()->setRevisionView($revisionView);
     }
 
     /**
@@ -181,7 +181,7 @@ class Settings extends AbstractPart
         $value = $xmlReader->getAttribute('w:val', $node);
 
         if ($value !== null) {
-            $phpWord->getSettings()->setConsecutiveHyphenLimit($value);
+            $phpWord->getDocumentSettings()->setConsecutiveHyphenLimit($value);
         }
     }
 
@@ -195,7 +195,7 @@ class Settings extends AbstractPart
         $value = $xmlReader->getAttribute('w:val', $node);
 
         if ($value !== null) {
-            $phpWord->getSettings()->setHyphenationZone($value);
+            $phpWord->getDocumentSettings()->setHyphenationZone($value);
         }
     }
 }
