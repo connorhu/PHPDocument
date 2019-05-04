@@ -93,6 +93,10 @@ class Paragraph extends AbstractStyle
                     $xmlWriter->writeAttribute('style:page-number', $style->getPageNumber());
                 }
             }
+            
+            if ($style->getBackgroundColor() !== null) {
+                $xmlWriter->writeAttribute('fo:background-color', '#' . $style->getBackgroundColor());
+            }
         }
 
         //Right to left

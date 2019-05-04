@@ -244,6 +244,14 @@ class Paragraph extends Border
     private $justifySingleWord;
 
     /**
+     * Background color of the paragraph
+     * 
+     * @link http://docs.oasis-open.org/office/v1.2/os/OpenDocument-v1.2-os-part1.html#property-fo_background-color fo
+     * @var bool
+     */
+    private $backgroundColor;
+
+    /**
      * Set Style value
      *
      * @param string $key
@@ -1138,6 +1146,28 @@ class Paragraph extends Border
     {
         $this->pageNumber = self::setPositiveIntVal($value, $this->pageNumber);
 
+        return $this;
+    }
+    
+    /**
+     * getter for backgroundColor
+     * 
+     * @return mixed return value for 
+     */
+    public function getBackgroundColor()
+    {
+        return $this->backgroundColor;
+    }
+    
+    /**
+     * setter for backgroundColor
+     *
+     * @param mixed $value
+     * @return self
+     */
+    public function setBackgroundColor($value)
+    {
+        $this->backgroundColor = $value;
         return $this;
     }
 }
