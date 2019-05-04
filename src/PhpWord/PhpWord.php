@@ -182,7 +182,7 @@ class PhpWord
 
         // Run add style method
         if (in_array($function, $addStyle)) {
-            return forward_static_call_array(array('PhpOffice\\PhpWord\\Style', $function), $args);
+            return $this->styleBag->{$function}(...$args);
         }
 
         // Exception
@@ -347,7 +347,7 @@ class PhpWord
      */
     public function setDefaultParagraphStyle($styles)
     {
-        return Style::setDefaultParagraphStyle($styles);
+        return $this->styleBag->setDefaultParagraphStyle($styles);
     }
 
     /**
