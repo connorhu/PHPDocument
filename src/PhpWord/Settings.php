@@ -25,15 +25,6 @@ namespace PhpOffice\PhpWord;
 class Settings
 {
     /**
-     * Zip libraries
-     *
-     * @const string
-     */
-    const ZIPARCHIVE = 'ZipArchive';
-    const PCLZIP = 'PclZip';
-    const OLD_LIB = 'PhpOffice\\PhpWord\\Shared\\ZipArchive'; // @deprecated 0.11
-
-    /**
      * PDF rendering libraries
      *
      * @const string
@@ -77,13 +68,6 @@ class Settings
      * @var bool
      */
     private static $xmlWriterCompatibility = true;
-
-    /**
-     * Name of the class used for Zip file management
-     *
-     * @var string
-     */
-    private static $zipClass = self::ZIPARCHIVE;
 
     /**
      * Name of the external Library used for rendering PDF files
@@ -158,33 +142,6 @@ class Settings
         self::$xmlWriterCompatibility = $compatibility;
 
         return true;
-    }
-
-    /**
-     * Get zip handler class
-     *
-     * @return string
-     */
-    public static function getZipClass()
-    {
-        return self::$zipClass;
-    }
-
-    /**
-     * Set zip handler class
-     *
-     * @param  string $zipClass
-     * @return bool
-     */
-    public static function setZipClass($zipClass)
-    {
-        if (in_array($zipClass, array(self::PCLZIP, self::ZIPARCHIVE, self::OLD_LIB))) {
-            self::$zipClass = $zipClass;
-
-            return true;
-        }
-
-        return false;
     }
 
     /**
