@@ -96,15 +96,12 @@ abstract class AbstractWriter implements WriterInterface
     /**
      * Get PhpWord object
      *
-     * @throws \PhpOffice\PhpWord\Exception\Exception
+     * @throws \TypeError
      * @return \PhpOffice\PhpWord\PhpWord
      */
-    public function getPhpWord()
+    public function getPhpWord() : PhpWord
     {
-        if (!is_null($this->phpWord)) {
-            return $this->phpWord;
-        }
-        throw new Exception('No PhpWord assigned.');
+        return $this->phpWord;
     }
 
     /**
@@ -113,7 +110,7 @@ abstract class AbstractWriter implements WriterInterface
      * @param \PhpOffice\PhpWord\PhpWord
      * @return self
      */
-    public function setPhpWord(PhpWord $phpWord = null)
+    public function setPhpWord(PhpWord $phpWord = null) : self
     {
         $this->phpWord = $phpWord;
 
