@@ -21,19 +21,22 @@ use PhpOffice\PhpWord\Shared\Converter;
 use PhpOffice\PhpWord\Style;
 
 /**
- * Font style writer
+ * Paragraph style writer
  *
  * @since 0.10.0
  */
 class Paragraph extends AbstractStyle
 {
+    use Traits\PaddingWriter;
+    use Traits\BorderWriter;
+
     /**
      * Write style.
      */
     public function write()
     {
         $style = $this->getStyle();
-        if (!$style instanceof \PhpOffice\PhpWord\Style\Paragraph) {
+        if (!$style instanceof Style\Paragraph) {
             return;
         }
         $xmlWriter = $this->getXmlWriter();
@@ -93,10 +96,22 @@ class Paragraph extends AbstractStyle
                     $xmlWriter->writeAttribute('style:page-number', $style->getPageNumber());
                 }
             }
-            
+
             if ($style->getBackgroundColor() !== null) {
                 $xmlWriter->writeAttribute('fo:background-color', '#' . $style->getBackgroundColor());
             }
+
+            $this->writePaddingAttributes($xmlWriter, $style);
+
+            $this->writeBorderAttributes($xmlWriter, $style);
+
+            // TODO: style:auto-text-indent
+            // style:auto-text-indent="true"
+
+            // TODO: style:page-number
+            // style:page-number="auto"
+
+            // fo:border="0.06pt solid #000000"
         }
 
         //Right to left

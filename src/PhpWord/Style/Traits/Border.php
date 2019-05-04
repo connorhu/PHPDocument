@@ -17,8 +17,11 @@
 
 namespace PhpOffice\PhpWord\Style\Traits;
 
+use PhpOffice\PhpWord\Shared\Converter;
+
 /**
  * Border trait
+ * @see http://docs.oasis-open.org/office/v1.2/os/OpenDocument-v1.2-os-part1.html#__RefHeading__1419780_253892949 ODF specification
  */
 trait Border
 {
@@ -215,8 +218,11 @@ trait Border
      * @param int|float $value
      * @return self
      */
-    public function setBorderTopSize($value = null)
+    public function setBorderTopSize($value = null): self
     {
+        if ($value !== null) {
+            $value = Converter::autoConvertTo($value, Converter::UNIT_TWIP);
+        }
         $this->borderTopSize = $this->setNumericVal($value, $this->borderTopSize);
 
         return $this;
@@ -286,6 +292,9 @@ trait Border
      */
     public function setBorderLeftSize($value = null)
     {
+        if ($value !== null) {
+            $value = Converter::autoConvertTo($value, Converter::UNIT_TWIP);
+        }
         $this->borderLeftSize = $this->setNumericVal($value, $this->borderLeftSize);
 
         return $this;
@@ -355,6 +364,9 @@ trait Border
      */
     public function setBorderRightSize($value = null)
     {
+        if ($value !== null) {
+            $value = Converter::autoConvertTo($value, Converter::UNIT_TWIP);
+        }
         $this->borderRightSize = $this->setNumericVal($value, $this->borderRightSize);
 
         return $this;
@@ -424,6 +436,9 @@ trait Border
      */
     public function setBorderBottomSize($value = null)
     {
+        if ($value !== null) {
+            $value = Converter::autoConvertTo($value, Converter::UNIT_TWIP);
+        }
         $this->borderBottomSize = $this->setNumericVal($value, $this->borderBottomSize);
 
         return $this;

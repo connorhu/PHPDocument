@@ -53,6 +53,7 @@ use PhpOffice\PhpWord\SimpleType\TextAlignment;
 class Paragraph extends AbstractStyle
 {
     use Traits\Border;
+    use Traits\Padding;
 
     /**
      * @const int One line height equals 240 twip
@@ -247,8 +248,8 @@ class Paragraph extends AbstractStyle
 
     /**
      * Background color of the paragraph
-     * 
-     * @link http://docs.oasis-open.org/office/v1.2/os/OpenDocument-v1.2-os-part1.html#property-fo_background-color fo
+     *
+     * @see http://docs.oasis-open.org/office/v1.2/os/OpenDocument-v1.2-os-part1.html#property-fo_background-color fo
      * @var bool
      */
     private $backgroundColor;
@@ -1150,17 +1151,17 @@ class Paragraph extends AbstractStyle
 
         return $this;
     }
-    
+
     /**
      * getter for backgroundColor
-     * 
-     * @return mixed return value for 
+     *
+     * @return mixed return value for
      */
     public function getBackgroundColor()
     {
         return $this->backgroundColor;
     }
-    
+
     /**
      * setter for backgroundColor
      *
@@ -1170,6 +1171,7 @@ class Paragraph extends AbstractStyle
     public function setBackgroundColor($value)
     {
         $this->backgroundColor = $value;
+
         return $this;
     }
 }

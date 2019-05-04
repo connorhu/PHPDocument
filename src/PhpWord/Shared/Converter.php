@@ -22,6 +22,15 @@ namespace PhpOffice\PhpWord\Shared;
  */
 class Converter
 {
+    const UNIT_TWIP = 'twip';
+    const UNIT_PICA = 'pc';
+    const UNIT_CM = 'cm';
+    const UNIT_MM = 'mm';
+    const UNIT_INCH = 'in';
+    const UNIT_PIXEL = 'px';
+    const UNIT_POINT = 'pt';
+    const UNIT_EMU = 'emu'; // English Metric Unit
+
     const INCH_TO_CM = 2.54;
     const INCH_TO_TWIP = 1440;
     const INCH_TO_PIXEL = 96;
@@ -52,6 +61,11 @@ class Converter
         return $centimeter / self::INCH_TO_CM;
     }
 
+    public static function cmToIn($centimeter = 1)
+    {
+        return self::cmToInch($centimeter);
+    }
+
     /**
      * Convert centimeter to pixel
      *
@@ -63,6 +77,11 @@ class Converter
         return $centimeter / self::INCH_TO_CM * self::INCH_TO_PIXEL;
     }
 
+    public static function cmToPx($centimeter = 1)
+    {
+        return self::cmToPx($centimeter);
+    }
+
     /**
      * Convert centimeter to point
      *
@@ -72,6 +91,11 @@ class Converter
     public static function cmToPoint($centimeter = 1)
     {
         return $centimeter / self::INCH_TO_CM * self::INCH_TO_POINT;
+    }
+
+    public static function cmToPt($centimeter = 1)
+    {
+        return self::cmToPoint($centimeter);
     }
 
     /**
@@ -96,6 +120,27 @@ class Converter
         return $twip / self::INCH_TO_TWIP;
     }
 
+    public static function twipToIn($twip = 1)
+    {
+        return self::twipToInch($twip);
+    }
+
+    /**
+     * Convert twip to point unit
+     *
+     * @param float $twip
+     * @return float
+     */
+    public static function twipToPoint($twip = 1)
+    {
+        return ($twip / self::INCH_TO_TWIP) * self::INCH_TO_POINT;
+    }
+
+    public static function twipToPt($twip = 1)
+    {
+        return self::twipToPoint($twip);
+    }
+
     /**
      * Convert inch to twip
      *
@@ -105,6 +150,11 @@ class Converter
     public static function inchToTwip($inch = 1)
     {
         return $inch * self::INCH_TO_TWIP;
+    }
+
+    public static function inToTwip($inch = 1)
+    {
+        return self::inchToTwip($inch);
     }
 
     /**
@@ -118,6 +168,11 @@ class Converter
         return $inch * self::INCH_TO_CM;
     }
 
+    public static function inToCm($inch = 1)
+    {
+        return self::inchToCm($inch);
+    }
+
     /**
      * Convert inch to pixel
      *
@@ -127,6 +182,11 @@ class Converter
     public static function inchToPixel($inch = 1)
     {
         return $inch * self::INCH_TO_PIXEL;
+    }
+
+    public static function inToPx($inch = 1)
+    {
+        return self::inchToPixel($inch);
     }
 
     /**
@@ -140,6 +200,11 @@ class Converter
         return $inch * self::INCH_TO_POINT;
     }
 
+    public static function inToPt($inch = 1)
+    {
+        return self::inchToPoint($inch);
+    }
+
     /**
      * Convert inch to EMU
      *
@@ -149,6 +214,11 @@ class Converter
     public static function inchToEmu($inch = 1)
     {
         return round($inch * self::INCH_TO_PIXEL * self::PIXEL_TO_EMU);
+    }
+
+    public static function inToEmu($inch = 1)
+    {
+        return self::inToEmu($inch);
     }
 
     /**
@@ -162,6 +232,11 @@ class Converter
         return $pixel / self::INCH_TO_PIXEL * self::INCH_TO_TWIP;
     }
 
+    public static function pxToTwip($pixel = 1)
+    {
+        return self::pixelToTwip($pixel);
+    }
+
     /**
      * Convert pixel to centimeter
      *
@@ -171,6 +246,11 @@ class Converter
     public static function pixelToCm($pixel = 1)
     {
         return $pixel / self::INCH_TO_PIXEL * self::INCH_TO_CM;
+    }
+
+    public static function pxToCm($pixel = 1)
+    {
+        return self::pxToCm($pixel);
     }
 
     /**
@@ -195,6 +275,11 @@ class Converter
         return round($pixel * self::PIXEL_TO_EMU);
     }
 
+    public static function pxToEmu($pixel = 1)
+    {
+        return self::pixelToEmu($pixel);
+    }
+
     /**
      * Convert point to twip unit
      *
@@ -204,6 +289,11 @@ class Converter
     public static function pointToTwip($point = 1)
     {
         return $point / self::INCH_TO_POINT * self::INCH_TO_TWIP;
+    }
+
+    public static function ptToTwip($point = 1)
+    {
+        return self::pointToTwip($point);
     }
 
     /**
@@ -217,6 +307,11 @@ class Converter
         return $point / self::INCH_TO_POINT * self::INCH_TO_PIXEL;
     }
 
+    public static function ptToPx($point = 1)
+    {
+        return self::pointToPixel($point);
+    }
+
     /**
      * Convert point to EMU
      *
@@ -226,6 +321,11 @@ class Converter
     public static function pointToEmu($point = 1)
     {
         return round($point / self::INCH_TO_POINT * self::INCH_TO_PIXEL * self::PIXEL_TO_EMU);
+    }
+
+    public static function ptToEmu($point = 1)
+    {
+        return self::pointToEmu($point);
     }
 
     /**
@@ -239,6 +339,11 @@ class Converter
         return $point / self::INCH_TO_POINT * self::INCH_TO_CM;
     }
 
+    public static function ptToCm($point = 1)
+    {
+        return self::pointToCm($point);
+    }
+
     /**
      * Convert EMU to pixel
      *
@@ -250,6 +355,11 @@ class Converter
         return round($emu / self::PIXEL_TO_EMU);
     }
 
+    public static function emuToPx($emu = 1)
+    {
+        return self::emuToPx($emu);
+    }
+
     /**
      * Convert pica to point
      *
@@ -259,6 +369,11 @@ class Converter
     public static function picaToPoint($pica = 1)
     {
         return $pica / self::INCH_TO_PICA * self::INCH_TO_POINT;
+    }
+
+    public static function pcToPt($pica = 1)
+    {
+        return self::picaToPoint($pica);
     }
 
     /**
@@ -289,7 +404,7 @@ class Converter
      * @param string $value HTML Color in hexadecimal
      * @return array Value in RGB
      */
-    public static function htmlToRgb($value)
+    public static function htmlToRgb($value): array
     {
         if ($value[0] == '#') {
             $value = substr($value, 1);
@@ -383,17 +498,17 @@ class Converter
             $unit = $matches[2];
 
             switch ($unit) {
-                case 'pt':
+                case self::UNIT_POINT:
                     return $size;
-                case 'px':
+                case self::UNIT_PIXEL:
                     return self::{'pixelTo' . ucfirst($targetMeasurement)}($size);
-                case 'cm':
+                case self::UNIT_POINT:
                     return self::{'cmTo' . ucfirst($targetMeasurement)}($size);
-                case 'mm':
+                case self::UNIT_MM:
                     return self::{'cmTo' . ucfirst($targetMeasurement)}($size / 10);
-                case 'in':
+                case self::UNIT_INCH:
                     return self::{'inchTo' . ucfirst($targetMeasurement)}($size);
-                case 'pc':
+                case self::UNIT_PICA:
                     return self::{'picaTo' . ucfirst($targetMeasurement)}($size);
             }
         }

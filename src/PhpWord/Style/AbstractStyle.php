@@ -162,7 +162,7 @@ abstract class AbstractStyle
         if (isset($this->aliases[$key])) {
             $key = $this->aliases[$key];
         }
-        $method = 'set' . Text::removeUnderscorePrefix($key);
+        $method = 'set' . ucfirst(Text::removeUnderscorePrefix($key));
         if (method_exists($this, $method)) {
             $this->$method($value);
         }
