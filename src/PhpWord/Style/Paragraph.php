@@ -44,7 +44,6 @@ use PhpOffice\PhpWord\SimpleType\TextAlignment;
  * - Outline & numbering
  * - Tabs
  * - Dropcaps
- * - Tabs
  * - Borders
  * - Background
  *
