@@ -89,14 +89,9 @@ class Tab extends AbstractStyle
      */
     public function __construct($type = null, $position = 0, $leader = null)
     {
-        $leaderTypes = array(
-            self::TAB_LEADER_NONE, self::TAB_LEADER_DOT, self::TAB_LEADER_HYPHEN,
-            self::TAB_LEADER_UNDERSCORE, self::TAB_LEADER_HEAVY, self::TAB_LEADER_MIDDLEDOT,
-        );
-
-        $this->type = $this->setEnumVal($type, self::$tabStopTypes, $this->type);
-        $this->position = $this->setNumericVal($position, $this->position);
-        $this->leader = $this->setEnumVal($leader, $leaderTypes, $this->leader);
+        $this->setType($type);
+        $this->setPosition($position);
+        $this->setLeader($leader);
     }
 
     /**
