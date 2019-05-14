@@ -125,7 +125,7 @@ class Styles extends AbstractPart
                 $styleClass = str_replace('\\Style\\', '\\Writer\\ODText\\Style\\', get_class($style));
                 if (class_exists($styleClass)) {
                     /** @var $styleWriter \PhpOffice\PhpWord\Writer\ODText\Style\AbstractStyle Type hint */
-                    $styleWriter = new $styleClass($xmlWriter, $style, $this->getParentWriter()->getPhpWord());
+                    $styleWriter = new $styleClass($this->getParentWriter()->getPhpWord(), $xmlWriter, $style);
                     $styleWriter->write();
                 }
             }
