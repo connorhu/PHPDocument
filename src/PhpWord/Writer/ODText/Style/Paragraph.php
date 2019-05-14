@@ -56,6 +56,10 @@ class Paragraph extends AbstractStyle
             if ($style->getBreakPosition() !== Style\Paragraph::BREAK_POSITION_UNSET && $style->getBreakKind() === Style\Paragraph::BREAK_KIND_PAGE && $style->getPageStyle() !== null) {
                 $xmlWriter->writeAttribute('style:master-page-name', $style->getPageStyle());
             }
+            
+            if ($style->getBasedOn() !== null) {
+                $xmlWriter->writeAttribute('style:parent-style-name', $style->getBasedOn());
+            }
         }
 
         $xmlWriter->startElement('style:paragraph-properties');
