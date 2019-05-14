@@ -17,8 +17,10 @@
 
 namespace PhpOffice\PhpWord\Writer\ODText\Style;
 
+use PhpOffice\Common\XMLWriter;
 use PhpOffice\PhpWord\Shared\Converter;
 use PhpOffice\PhpWord\Style;
+use PhpOffice\PhpWord\Writer\ODText as ODTWriter;
 
 /**
  * Paragraph style writer
@@ -142,7 +144,7 @@ class Paragraph extends AbstractStyle
         $xmlWriter->endElement(); //style:paragraph-properties
 
         if ($style->getFont()) {
-            $writer = new \PhpOffice\PhpWord\Writer\ODText\Style\Font($this->phpWord, $xmlWriter, $style->getFont());
+            $writer = new ODTWriter\Style\Font($this->phpWord, $xmlWriter, $style->getFont());
             $writer->write();
         }
 
