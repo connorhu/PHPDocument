@@ -103,6 +103,7 @@ class PhpWord
      */
     private $styleBag;
 
+    /*
      * Create new instance
      *
      * Collections are created dynamically
