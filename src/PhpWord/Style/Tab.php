@@ -35,6 +35,16 @@ class Tab extends AbstractStyle
     const TAB_STOP_BAR = 'bar';
     const TAB_STOP_NUM = 'num';
 
+    static $tabStopTypes = [
+        self::TAB_STOP_CLEAR,
+        self::TAB_STOP_LEFT,
+        self::TAB_STOP_CENTER,
+        self::TAB_STOP_RIGHT,
+        self::TAB_STOP_DECIMAL,
+        self::TAB_STOP_BAR,
+        self::TAB_STOP_NUM,
+    ];
+
     /**
      * Tab leader types
      *
@@ -79,16 +89,12 @@ class Tab extends AbstractStyle
      */
     public function __construct($type = null, $position = 0, $leader = null)
     {
-        $stopTypes = array(
-            self::TAB_STOP_CLEAR, self::TAB_STOP_LEFT, self::TAB_STOP_CENTER,
-            self::TAB_STOP_RIGHT, self::TAB_STOP_DECIMAL, self::TAB_STOP_BAR, self::TAB_STOP_NUM,
-        );
         $leaderTypes = array(
             self::TAB_LEADER_NONE, self::TAB_LEADER_DOT, self::TAB_LEADER_HYPHEN,
             self::TAB_LEADER_UNDERSCORE, self::TAB_LEADER_HEAVY, self::TAB_LEADER_MIDDLEDOT,
         );
 
-        $this->type = $this->setEnumVal($type, $stopTypes, $this->type);
+        $this->type = $this->setEnumVal($type, self::$tabStopTypes, $this->type);
         $this->position = $this->setNumericVal($position, $this->position);
         $this->leader = $this->setEnumVal($leader, $leaderTypes, $this->leader);
     }
@@ -111,12 +117,7 @@ class Tab extends AbstractStyle
      */
     public function setType($value)
     {
-        $enum = array(
-            self::TAB_STOP_CLEAR, self::TAB_STOP_LEFT, self::TAB_STOP_CENTER,
-            self::TAB_STOP_RIGHT, self::TAB_STOP_DECIMAL, self::TAB_STOP_BAR,
-            self::TAB_STOP_NUM,
-        );
-        $this->type = $this->setEnumVal($value, $enum, $this->type);
+        $this->type = $this->setEnumVal($value, self::$tabStopTypes, $this->type);
 
         return $this;
     }
