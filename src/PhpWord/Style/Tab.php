@@ -17,6 +17,8 @@
 
 namespace PhpOffice\PhpWord\Style;
 
+use PhpOffice\PhpWord\Shared\Converter;
+
 /**
  * Tab style
  */
@@ -167,6 +169,12 @@ class Tab extends AbstractStyle
      */
     public function setPosition($value)
     {
+        if (is_string($value)) {
+            $value = Converter::autoConvertTo($value, 'twip');
+        } else {
+            $value *= 1;
+        }
+        
         $this->position = $this->setNumericVal($value, $this->position);
 
         return $this;
