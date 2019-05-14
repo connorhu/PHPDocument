@@ -138,7 +138,8 @@ class StyleBag implements Countable, Iterator
      */
     public function resetStyles()
     {
-        $this->styles = array();
+        $this->styleNames = [];
+        $this->styles = [];
     }
 
     /**
@@ -201,6 +202,7 @@ class StyleBag implements Countable, Iterator
             }
             $style->setStyleName($name);
             $style->setIndex($this->countStyles() + 1); // One based index
+            $this->styleNames[] = $name;
             $this->styles[$name] = $style;
         }
 
@@ -212,14 +214,14 @@ class StyleBag implements Countable, Iterator
         return count($this->styles);
     }
     
-    public function current() : mixed
+    public function current() : AbstractStyle
     {
-        return $this->styles[$this->iteratorCursor];
+        return $this->styles[$this->styleNames[$this->iteratorCursor]];
     }
     
     public function key() : scalar
     {
-        return $this->iteratorCursor;
+        return $this->styleNames[$this->iteratorCursor];
     }
     
     public function next() : void
@@ -234,7 +236,7 @@ class StyleBag implements Countable, Iterator
     
     public function valid() : bool
     {
-        return isset($this->styles[$this->iteratorCursor]);
+        return isset($this->styles[$this->styleNames[$this->iteratorCursor]]);
     }
     
 }
