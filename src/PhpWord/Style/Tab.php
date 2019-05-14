@@ -57,6 +57,15 @@ class Tab extends AbstractStyle
     const TAB_LEADER_HEAVY = 'heavy';
     const TAB_LEADER_MIDDLEDOT = 'middleDot';
 
+    static $tabLeaderTypes = [
+        self::TAB_LEADER_NONE,
+        self::TAB_LEADER_DOT,
+        self::TAB_LEADER_HYPHEN,
+        self::TAB_LEADER_UNDERSCORE,
+        self::TAB_LEADER_HEAVY,
+        self::TAB_LEADER_MIDDLEDOT,
+    ];
+
     /**
      * Tab stop type
      *
@@ -135,11 +144,7 @@ class Tab extends AbstractStyle
      */
     public function setLeader($value)
     {
-        $enum = array(
-            self::TAB_LEADER_NONE, self::TAB_LEADER_DOT, self::TAB_LEADER_HYPHEN,
-            self::TAB_LEADER_UNDERSCORE, self::TAB_LEADER_HEAVY, self::TAB_LEADER_MIDDLEDOT,
-        );
-        $this->leader = $this->setEnumVal($value, $enum, $this->leader);
+        $this->leader = $this->setEnumVal($value, self::$tabLeaderTypes, $this->leader);
 
         return $this;
     }
