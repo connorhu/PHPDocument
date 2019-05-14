@@ -166,6 +166,6 @@ abstract class AbstractStyle
     
     protected function getPhpWordSettings() : Settings
     {
-        return $this->getPhpWord()->getPhpWordSettings();
+        return $this->phpWord->getPhpWordSettings();
     }
 }
