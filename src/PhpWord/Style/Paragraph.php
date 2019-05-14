@@ -118,14 +118,14 @@ class Paragraph extends AbstractStyle
      *
      * @var bool
      */
-    private $keepNext = false;
+    private $keepNext;
 
     /**
      * Keep all lines on one page
      *
      * @var bool
      */
-    private $keepLines = false;
+    private $keepLines;
 
     /**
      * Start paragraph on next page
@@ -680,7 +680,7 @@ class Paragraph extends AbstractStyle
      * @param bool $value
      * @return self
      */
-    public function setWidowControl($value = true)
+    public function setWidowControl(?bool $value = true) : self
     {
         $this->widowControl = $this->setBoolVal($value, $this->widowControl);
 
@@ -692,7 +692,7 @@ class Paragraph extends AbstractStyle
      *
      * @return bool
      */
-    public function isKeepNext()
+    public function isKeepNext() : ?bool
     {
         return $this->keepNext;
     }
@@ -703,7 +703,7 @@ class Paragraph extends AbstractStyle
      * @param bool $value
      * @return self
      */
-    public function setKeepNext($value = true)
+    public function setKeepNext(?bool $value = true) : self
     {
         $this->keepNext = $this->setBoolVal($value, $this->keepNext);
 
@@ -715,7 +715,7 @@ class Paragraph extends AbstractStyle
      *
      * @return bool
      */
-    public function isKeepLines()
+    public function isKeepLines() : ?bool
     {
         return $this->keepLines;
     }
@@ -811,7 +811,7 @@ class Paragraph extends AbstractStyle
      *
      * @return \PhpOffice\PhpWord\Style\Tab[]
      */
-    public function getTabs()
+    public function getTabs() : array
     {
         return $this->tabs;
     }
@@ -822,7 +822,7 @@ class Paragraph extends AbstractStyle
      * @param array $value
      * @return self
      */
-    public function setTabs($value = null)
+    public function setTabs(array $value = null) : self
     {
         if (is_array($value)) {
             $this->tabs = $value;
