@@ -134,6 +134,8 @@ class Paragraph extends AbstractStyle
             // fo:border="0.06pt solid #000000"
         }
 
+        $this->writeTabs($xmlWriter, $style->getTabs());
+
         //Right to left
         $xmlWriter->writeAttributeIf($style->isBidi(), 'style:writing-mode', 'rl-tb');
 
@@ -145,5 +147,26 @@ class Paragraph extends AbstractStyle
         }
 
         $xmlWriter->endElement(); //style:style
+    }
+    
+
+    /**
+     * Write tabs.
+     *
+     * @param \PhpOffice\Common\XMLWriter $xmlWriter
+     * @param \PhpOffice\PhpWord\Style\Tab[] $tabs
+     */
+    private function writeTabs(XMLWriter $xmlWriter, array $tabs)
+    {
+        if (empty($tabs)) {
+            return;
+        }
+
+        $xmlWriter->startElement('style:tab-stops');
+        foreach ($tabs as $tab) {
+            $styleWriter = new Tab($this->phpWord, $xmlWriter, $tab);
+            $styleWriter->write();
+        }
+        $xmlWriter->endElement(); // style:tab-stops
     }
 }

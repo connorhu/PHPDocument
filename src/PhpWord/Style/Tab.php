@@ -36,6 +36,7 @@ class Tab extends AbstractStyle
     const TAB_STOP_DECIMAL = 'decimal';
     const TAB_STOP_BAR = 'bar';
     const TAB_STOP_NUM = 'num';
+    const TAB_STOP_CHAR = 'char';
 
     static $tabStopTypes = [
         self::TAB_STOP_CLEAR,
@@ -45,6 +46,7 @@ class Tab extends AbstractStyle
         self::TAB_STOP_DECIMAL,
         self::TAB_STOP_BAR,
         self::TAB_STOP_NUM,
+        self::TAB_STOP_CHAR,
     ];
 
     /**
@@ -88,6 +90,20 @@ class Tab extends AbstractStyle
      * @var int|float
      */
     private $position = 0;
+
+    /**
+     * The leaderText field specifies a single Unicode character for use as leader text for tab stops.
+     *
+     * @var string
+     */
+    protected $leaderText;
+
+    /**
+     * The leaderText field pecifies the delimiter character for tab stops of type char.
+     *
+     * @var string
+     */
+    protected $char;
 
     /**
      * Create a new instance of Tab. Both $type and $leader
@@ -177,6 +193,59 @@ class Tab extends AbstractStyle
         
         $this->position = $this->setNumericVal($value, $this->position);
 
+        return $this;
+    }
+    
+    
+    /**
+     * getter for leaderText
+     * 
+     * @return string|null return value for 
+     */
+    public function getLeaderText() : ?string
+    {
+        return $this->leaderText;
+    }
+    
+    /**
+     * setter for leaderText
+     *
+     * @param string
+     * @return self
+     */
+    public function setLeaderText(?string $value) : self
+    {
+        if ($value !== null && mb_strlen($value) > 1) {
+            throw new \Exception('');
+        }
+        
+        $this->leaderText = $value;
+        return $this;
+    }
+    
+    /**
+     * getter for char
+     * 
+     * @return mixed return value for 
+     */
+    public function getChar() : ?string
+    {
+        return $this->char;
+    }
+    
+    /**
+     * setter for char
+     *
+     * @param mixed $value
+     * @return self
+     */
+    public function setChar(?string $value) : self
+    {
+        if ($value !== null && mb_strlen($value) > 1) {
+            throw new \Exception('');
+        }
+
+        $this->char = $value;
         return $this;
     }
 }
