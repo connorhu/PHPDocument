@@ -43,7 +43,7 @@ class Styles extends AbstractPart
         // Font declarations
         $this->writeFontFaces($xmlWriter);
 
-        // Office styles
+        // Custom styles
         $xmlWriter->startElement('office:styles');
         $this->writeDefault($xmlWriter);
         $this->writeNamed($xmlWriter);
