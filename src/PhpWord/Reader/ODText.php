@@ -17,8 +17,8 @@
 
 namespace PhpOffice\PhpWord\Reader;
 
+use PhpOffice\PhpDocument\Document;
 use PhpOffice\Common\XMLReader;
-use PhpOffice\PhpWord\PhpWord;
 
 /**
  * Reader for ODText
@@ -28,14 +28,14 @@ use PhpOffice\PhpWord\PhpWord;
 class ODText extends AbstractReader implements ReaderInterface
 {
     /**
-     * Loads PhpWord from file
+     * Loads Document from file
      *
      * @param string $docFile
-     * @return \PhpOffice\PhpWord\PhpWord
+     * @return \PhpOffice\PhpDocument\Document
      */
-    public function load($docFile)
+    public function load($docFile) : Document
     {
-        $phpWord = new PhpWord();
+        $document = new Document();
         $relationships = $this->readRelationships($docFile);
 
         $readerParts = array(
@@ -47,19 +47,19 @@ class ODText extends AbstractReader implements ReaderInterface
             $this->readPart($phpWord, $relationships, $partName, $docFile, $xmlFile);
         }
 
-        return $phpWord;
+        return $document;
     }
 
     /**
      * Read document part.
      *
-     * @param \PhpOffice\PhpWord\PhpWord $phpWord
+     * @param \PhpOffice\PhpDocument\Document $phpWord
      * @param array $relationships
      * @param string $partName
      * @param string $docFile
      * @param string $xmlFile
      */
-    private function readPart(PhpWord $phpWord, $relationships, $partName, $docFile, $xmlFile)
+    private function readPart(Document $document, array $relationships, string $partName, string $docFile, string $xmlFile)
     {
         $partClass = "PhpOffice\\PhpWord\\Reader\\ODText\\{$partName}";
         if (class_exists($partClass)) {
@@ -76,9 +76,9 @@ class ODText extends AbstractReader implements ReaderInterface
      * @param string $docFile
      * @return array
      */
-    private function readRelationships($docFile)
+    private function readRelationships(string $docFile) : array
     {
-        $rels = array();
+        $rels = [];
         $xmlFile = 'META-INF/manifest.xml';
         $xmlReader = new XMLReader();
         $xmlReader->getDomFromZip($docFile, $xmlFile);
