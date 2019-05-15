@@ -41,6 +41,7 @@ class ODText extends AbstractReader implements ReaderInterface
         $readerParts = array(
             'content.xml' => ODText\Content::class,
             'meta.xml'    => ODText\Meta::class,
+            'styles.xml'  => ODText\Styles::class,
         );
 
         foreach ($readerParts as $xmlFile => $partReaderClass) {
