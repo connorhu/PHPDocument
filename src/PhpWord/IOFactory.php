@@ -25,19 +25,18 @@ use PhpOffice\PhpWord\PhpWord;
 abstract class IOFactory
 {
     private static $writers = [
-        'ODText' => Writers\ODText::class,
-        'RTF' => Writers\RTF::class,
-        'Word2007' => Writers\Word2007::class,
-        'HTML' => Writers\HTML::class,
-        'PDF' => Writers\PDF::class,
+        Writers\ODText::class => 'ODText',
+        Writers\RTF::class => 'RTF',
+        Writers\Word2007::class => 'Word2007',
+        Writers\HTML::class => 'HTML',
+        Writers\PDF::class => 'PDF',
     ];
     
     private static $readers = [
-        'ODText' => Readers\ODText::class,
-        'RTF' => Readers\RTF::class,
-        'Word2007' => Readers\Word2007::class,
-        'HTML' => Readers\HTML::class,
-        'PDF' => Readers\PDF::class,
+        Readers\ODText::class => 'ODText',
+        Readers\RTF::class => 'RTF',
+        Readers\Word2007::class => 'Word2007',
+        Readers\HTML::class => 'HTML',
     ];
     
     /**
@@ -50,13 +49,19 @@ abstract class IOFactory
      *
      * @return WriterInterface
      */
-    public static function createWriter(PhpWord $phpWord, string $name = 'Word2007') : Writers\WriterInterface
+    public static function createWriter(PhpWord $document, string $className = Writers\Word2007::class) : Writers\WriterInterface
     {
-        if ($name !== 'WriterInterface' && !isset(self::$writers[$name])) {
-            throw new Exception("\"{$name}\" is not a valid writer.");
+        if (isset(self::$writers[$className])) {
+            return new $className($document);
+        }
+        
+        if (array_search($className, self::$writers) !== false) {
+            @trigger_error('name based reader initialization is deprecated. use the namespaced class name: Writer\ODText::class', E_USER_DEPRECATED);
+            
+            return new self::$writers[$className]($document);
         }
 
-        return new self::$writers[$name]($phpWord);
+        throw new Exception("\"{$className}\" is not a valid writer.");
     }
 
     /**
@@ -68,35 +73,54 @@ abstract class IOFactory
      *
      * @return ReaderInterface
      */
-    public static function createReader(string $name = 'Word2007') : Readers\ReaderInterface
+    public static function createReader(string $className = Readers\Word2007::class) : Readers\ReaderInterface
     {
-        return self::createObject(self::OBJECT_TYPE_READER, $name);
+        return self::createObject(self::OBJECT_TYPE_READER, $className);
     }
     
     const OBJECT_TYPE_READER = 0x01;
     const OBJECT_TYPE_WRITER = 0x02;
+    
+    private function typeString(int $type) : string
+    {
+        switch ($type) {
+            case self::OBJECT_TYPE_READER:
+                return 'reader';
+            case self::OBJECT_TYPE_WRITER:
+                return 'writer';
+        }
+        
+        return 'unknown type';
+    }
     
     /**
      * Create new object
      *
      * @param string $type
      * @param string $name
-     * @param \PhpOffice\PhpWord\PhpWord $phpWord
+     * @param \PhpOffice\PhpWord\PhpWord $document
      *
      * @throws \PhpOffice\PhpWord\Exception\Exception
      *
      * @return \PhpOffice\PhpWord\Writer\WriterInterface|\PhpOffice\PhpWord\Reader\ReaderInterface
      */
-    private static function createObject(string $type, string $name, PhpWord $phpWord = null)
+    private static function createObject(int $type, string $className, PhpWord $document = null)
     {
         if ($type === self::OBJECT_TYPE_WRITER) {
-            return self::createWriter($name);
-        }
-        elseif (isset(self::$readers[$name])) {
-            return new self::$readers[$name]($phpWord);
+            return self::createWriter($className);
         }
 
-        throw new Exception("\"{$name}\" is not a valid {$type}.");
+        if (isset(self::$readers[$className])) {
+            return new $className($document);
+        }
+        
+        if (array_search($className, self::$readers) !== false) {
+            @trigger_error('name based reader initialization is deprecated. use the namespaced class name: Readers\ODText::class', E_USER_DEPRECATED);
+            
+            return new self::$readers[$className]($document);
+        }
+
+        throw new Exception($className .' is not a valid '. self::typeString($type));
     }
 
     /**
@@ -106,10 +130,10 @@ abstract class IOFactory
      * @param string $readerName
      * @return \PhpOffice\PhpWord\PhpWord $phpWord
      */
-    public static function load(string $filename, string $readerName = 'Word2007') : PhpWord
+    public static function load(string $filename, string $readerClass = Readers\Word2007::class) : PhpWord
     {
         /** @var \PhpOffice\PhpWord\Reader\ReaderInterface $reader */
-        $reader = self::createReader($readerName);
+        $reader = self::createReader($readerClass);
 
         return $reader->load($filename);
     }
