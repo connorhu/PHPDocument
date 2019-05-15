@@ -70,7 +70,7 @@ abstract class IOFactory
      */
     public static function createReader(string $name = 'Word2007') : Readers\ReaderInterface
     {
-        return self::createObject('Reader', $name);
+        return self::createObject(self::OBJECT_TYPE_READER, $name);
     }
     
     const OBJECT_TYPE_READER = 'reader';
