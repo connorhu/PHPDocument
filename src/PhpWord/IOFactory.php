@@ -90,7 +90,7 @@ abstract class IOFactory
     private static function createObject(string $type, string $name, PhpWord $phpWord = null)
     {
         $type = strtolower($type);
-        if ($type === self::OBJECT_TYPE_READER) {
+        if ($type === self::OBJECT_TYPE_WRITER) {
             return self::createWriter($name);
         }
         elseif (isset(self::$readers[$name])) {
