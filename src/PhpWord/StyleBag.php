@@ -44,6 +44,50 @@ class StyleBag implements Countable, Iterator
      * @var array
      */
     private $styleNames = array();
+    
+    /**
+     * Has style named
+     *
+     * @param string $styleName
+     * @return bool
+     */
+    public function has(string $styleName) : bool
+    {
+        return isset($this->styles[$styleName]);
+    }
+
+    /**
+     * Get style with name
+     *
+     * @param string $styleName
+     * @return bool
+     */
+    public function get(string $styleName) : StyleInterface
+    {
+        if (!$this->has($styleName)) {
+            throw new \Exception('style not found with name: '. $styleName);
+        }
+        
+        return $this->styles[$styleName];
+    }
+
+    /**
+     * Add style
+     *
+     * @param \PhpOffice\PhpWord\Style\StyleInterface $style
+     * @return self
+     */
+    public function add(StyleInterface $style) : self
+    {
+        $styleName = $style->getStyleName();
+        
+        if (!isset($this->styles[$styleName])) {
+            $this->styleNames[] = $styleName;
+        }
+        $this->styles[$styleName] = $style;
+        
+        return $this;
+    }
 
     /**
      * Add paragraph style
