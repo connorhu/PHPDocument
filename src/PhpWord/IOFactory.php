@@ -73,8 +73,8 @@ abstract class IOFactory
         return self::createObject(self::OBJECT_TYPE_READER, $name);
     }
     
-    const OBJECT_TYPE_READER = 'reader';
-    const OBJECT_TYPE_WRITER = 'writer';
+    const OBJECT_TYPE_READER = 0x01;
+    const OBJECT_TYPE_WRITER = 0x02;
     
     /**
      * Create new object
@@ -89,7 +89,6 @@ abstract class IOFactory
      */
     private static function createObject(string $type, string $name, PhpWord $phpWord = null)
     {
-        $type = strtolower($type);
         if ($type === self::OBJECT_TYPE_WRITER) {
             return self::createWriter($name);
         }
