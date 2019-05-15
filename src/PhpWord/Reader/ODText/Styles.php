@@ -36,6 +36,21 @@ class Styles extends AbstractPart
         if ($nodes->length === 0) {
             return;
         }
+        
+        $styleBag = $document->getStyleBag();
 
+        foreach ($nodes as $node) {
+            switch ($node->nodeName) {
+                case 'style:default-style':
+                    // dump($node->attributes->getNamedItem('family')->nodeValue);
+                    break;
+                case 'style:style':
+                    $style = Styles\Style::read($node);
+                    
+                    $styleBag->add($style);
+                    
+                    break;
+            }
+        }
     }
 }
