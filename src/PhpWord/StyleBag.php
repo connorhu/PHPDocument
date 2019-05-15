@@ -20,6 +20,7 @@ namespace PhpOffice\PhpWord;
 use Countable;
 use Iterator;
 use PhpOffice\PhpWord\Style\AbstractStyle;
+use PhpOffice\PhpWord\Style\StyleInterface;
 use PhpOffice\PhpWord\Style\Font;
 use PhpOffice\PhpWord\Style\Numbering;
 use PhpOffice\PhpWord\Style\Paragraph;
@@ -31,6 +32,7 @@ use PhpOffice\PhpWord\Style\Table;
 class StyleBag implements Countable, Iterator
 {
     private $iteratorCursor = 0;
+
     /**
      * Style register
      *
@@ -232,32 +234,35 @@ class StyleBag implements Countable, Iterator
     /**
      * Set style values and put it to static style collection
      *
-     * The $styleValues could be an array or object
+     * The $value could be an array or object
      *
      * @param string $name
-     * @param \PhpOffice\PhpWord\Style\AbstractStyle $style
-     * @param array|\PhpOffice\PhpWord\Style\AbstractStyle $value
-     * @return \PhpOffice\PhpWord\Style\AbstractStyle
+     * @param \PhpOffice\PhpWord\Style\StyleInterface $style
+     * @param array|\PhpOffice\PhpWord\Style\StyleInterface $value
+     * @return \PhpOffice\PhpWord\Style\StyleInterface
      */
-    private function setStyleValues($name, $style, $value = null)
+    private function setStyleValues(string $name, StyleInterface $style, $value = null) : StyleInterface
     {
-        if (!isset($this->styles[$name])) {
-            if ($value !== null) {
-                if (is_array($value)) {
-                    $style->setStyleByArray($value);
-                } elseif ($value instanceof AbstractStyle) {
-                    if (get_class($style) == get_class($value)) {
-                        $style = $value;
-                    }
+        if ($this->has($name)) {
+            return $this->get($name);
+        }
+        
+        if ($value !== null) {
+            if (is_array($value)) {
+                $style->setStyleByArray($value);
+            } elseif ($value instanceof AbstractStyle) {
+                if (get_class($style) == get_class($value)) {
+                    $style = $value;
                 }
             }
-            $style->setStyleName($name);
-            $style->setIndex($this->countStyles() + 1); // One based index
-            $this->styleNames[] = $name;
-            $this->styles[$name] = $style;
         }
-
-        return $this->getStyle($name);
+        
+        $style->setStyleName($name);
+        $style->setIndex($this->countStyles() + 1); // One based index
+        
+        $this->add($style);
+        
+        return $style;
     }
     
     public function count() : int
