@@ -166,6 +166,9 @@ abstract class AbstractStyle
         if (method_exists($this, $method)) {
             $this->$method($value);
         }
+        else {
+            throw new \Exception('unknown field with name: '. $key .' at class: '. get_class($this));
+        }
 
         return $this;
     }
