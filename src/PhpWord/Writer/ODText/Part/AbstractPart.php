@@ -21,12 +21,12 @@ use PhpOffice\Common\XMLWriter;
 use PhpOffice\PhpWord\Settings;
 use PhpOffice\PhpWord\Style;
 use PhpOffice\PhpWord\Style\Font;
-use PhpOffice\PhpWord\Writer\Word2007;
+use PhpOffice\PhpWord\Writer\Common\BasePart;
 
 /**
  * ODText writer part abstract
  */
-abstract class AbstractPart extends Word2007\Part\AbstractPart
+abstract class AbstractPart extends BasePart
 {
     /**
      * @var string Date format
