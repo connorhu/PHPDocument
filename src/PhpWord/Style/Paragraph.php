@@ -260,7 +260,7 @@ class Paragraph extends AbstractStyle
      * @param mixed $value
      * @return self
      */
-    public function setStyleValue($key, $value)
+    public function setStyleValue(string $key, string $value) : self
     {
         $key = Text::removeUnderscorePrefix($key);
         if ('indent' == $key || 'hanging' == $key) {
@@ -907,7 +907,7 @@ class Paragraph extends AbstractStyle
      *
      * @return \PhpOffice\PhpWord\Style\Font
      */
-    public function getFont()
+    public function getFont() : ?Font
     {
         return $this->font;
     }
@@ -915,10 +915,10 @@ class Paragraph extends AbstractStyle
     /**
      * Set shading
      *
-     * @param mixed $value
+     * @param Font|array $value
      * @return self
      */
-    public function setFont($value = null)
+    public function setFont($value = null) : self
     {
         $this->setObjectVal($value, Font::class, $this->font);
         $this->font->setParagraph($this);

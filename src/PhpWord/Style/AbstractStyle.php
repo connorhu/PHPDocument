@@ -24,7 +24,7 @@ use PhpOffice\Common\Text;
  *
  * @since 0.10.0
  */
-abstract class AbstractStyle
+abstract class AbstractStyle implements StyleInterface
 {
     /**
      * Style name
@@ -62,7 +62,7 @@ abstract class AbstractStyle
      *
      * @return string
      */
-    public function getStyleName()
+    public function getStyleName() : string
     {
         return $this->styleName;
     }
@@ -73,7 +73,7 @@ abstract class AbstractStyle
      * @param string $value
      * @return self
      */
-    public function setStyleName($value)
+    public function setStyleName(string $value) : self
     {
         $this->styleName = $value;
 
@@ -85,7 +85,7 @@ abstract class AbstractStyle
      *
      * @return int|null
      */
-    public function getIndex()
+    public function getIndex() : ?int
     {
         return $this->index;
     }
@@ -96,7 +96,7 @@ abstract class AbstractStyle
      * @param int|null $value
      * @return self
      */
-    public function setIndex($value = null)
+    public function setIndex(?int $value = null) : self
     {
         $this->index = $this->setIntVal($value, $this->index);
 
@@ -108,7 +108,7 @@ abstract class AbstractStyle
      *
      * @return bool
      */
-    public function isAuto()
+    public function isAuto() : bool
     {
         return $this->isAuto;
     }
@@ -119,7 +119,7 @@ abstract class AbstractStyle
      * @param bool $value
      * @return self
      */
-    public function setAuto($value = true)
+    public function setAuto(bool $value = true) : self
     {
         $this->isAuto = $this->setBoolVal($value, $this->isAuto);
 
@@ -129,12 +129,12 @@ abstract class AbstractStyle
     /**
      * Return style value of child style object, e.g. `left` from `Indentation` child style of `Paragraph`
      *
-     * @param \PhpOffice\PhpWord\Style\AbstractStyle $substyleObject
+     * @param \PhpOffice\PhpWord\Style\StyleInterface $substyleObject
      * @param string $substyleProperty
      * @return mixed
      * @since 0.12.0
      */
-    public function getChildStyleValue($substyleObject, $substyleProperty)
+    public function getChildStyleValue(StyleInterface $substyleObject, string $substyleProperty)
     {
         if ($substyleObject !== null) {
             $method = "get{$substyleProperty}";
@@ -157,7 +157,7 @@ abstract class AbstractStyle
      * @param string $value
      * @return self
      */
-    public function setStyleValue($key, $value)
+    public function setStyleValue(string $key, string $value) : self
     {
         if (isset($this->aliases[$key])) {
             $key = $this->aliases[$key];
@@ -179,7 +179,7 @@ abstract class AbstractStyle
      * @param array $values
      * @return self
      */
-    public function setStyleByArray($values = array())
+    public function setStyleByArray(array $values = []) : self
     {
         foreach ($values as $key => $value) {
             $this->setStyleValue($key, $value);
