@@ -220,7 +220,33 @@ class Tab extends AbstractStyle
         }
         
         $this->leaderText = $value;
+        
+        $this->updateLeaderWithLeaderText();
+        
         return $this;
+    }
+    
+    private function updateLeaderWithLeaderText() {
+        switch ($this->leaderText) {
+            case ' ':
+                $this->leader = self::TAB_LEADER_NONE;
+                break;
+            case '.':
+                $this->leader = self::TAB_LEADER_DOT;
+                break;
+            case '-':
+                $this->leader = self::TAB_LEADER_HYPHEN;
+                break;
+            case '_':
+                $this->leader = self::TAB_LEADER_UNDERSCORE;
+                break;
+            case ' ':
+                $this->leader = self::TAB_LEADER_HEAVY;
+                break;
+            case '·':
+                $this->leader = self::TAB_LEADER_MIDDLEDOT;
+                break;
+        }
     }
     
     /**
