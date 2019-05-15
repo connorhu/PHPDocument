@@ -43,11 +43,6 @@ class Paragraph extends AbstractStyle
         }
         $xmlWriter = $this->getXmlWriter();
 
-        $marginTop = (is_null($style->getSpaceAbove()) || $style->getSpaceAbove() == 0) ? 0 : Converter::twipToInch($style->getSpaceAbove());
-        $marginBottom = (is_null($style->getSpaceBelow()) || $style->getSpaceBelow() == 0) ? 0 : Converter::twipToInch($style->getSpaceBelow());
-        $marginLeft = (is_null($style->getSpaceBefore()) || $style->getSpaceBefore() == 0) ? 0 : Converter::twipToInch($style->getSpaceBefore());
-        $marginRight = (is_null($style->getSpaceAfter()) || $style->getSpaceAfter() == 0) ? 0 : Converter::twipToInch($style->getSpaceAfter());
-
         $xmlWriter->startElement('style:style');
         $xmlWriter->writeAttribute('style:name', $style->getStyleName());
         $xmlWriter->writeAttribute('style:family', 'paragraph');
@@ -64,68 +59,78 @@ class Paragraph extends AbstractStyle
             }
         }
 
-        $xmlWriter->startElement('style:paragraph-properties');
+        $paragraphProperties = [];
+
         if ($style->isAuto()) {
-            $xmlWriter->writeAttribute('style:page-number', 'auto');
+            $paragraphProperties['style:page-number'] = 'auto';
         } else {
+            $marginTop = (is_null($style->getSpaceAbove()) || $style->getSpaceAbove() == 0) ? 0 : Converter::twipToInch($style->getSpaceAbove());
+            $marginBottom = (is_null($style->getSpaceBelow()) || $style->getSpaceBelow() == 0) ? 0 : Converter::twipToInch($style->getSpaceBelow());
+            $marginLeft = (is_null($style->getSpaceBefore()) || $style->getSpaceBefore() == 0) ? 0 : Converter::twipToInch($style->getSpaceBefore());
+            $marginRight = (is_null($style->getSpaceAfter()) || $style->getSpaceAfter() == 0) ? 0 : Converter::twipToInch($style->getSpaceAfter());
+
             if ($marginTop > 0) {
-                $xmlWriter->writeAttribute('fo:margin-top', $marginTop . 'in');
+                $paragraphProperties['fo:margin-top'] = $marginTop . 'in';
             }
             if ($marginBottom > 0) {
-                $xmlWriter->writeAttribute('fo:margin-bottom', $marginBottom . 'in');
+                $paragraphProperties['fo:margin-bottom'] = $marginBottom . 'in';
             }
             if ($marginLeft > 0) {
-                $xmlWriter->writeAttribute('fo:margin-left', $marginLeft . 'in');
+                $paragraphProperties['fo:margin-left'] = $marginLeft . 'in';
             }
             if ($marginRight > 0) {
-                $xmlWriter->writeAttribute('fo:margin-right', $marginRight . 'in');
+                $paragraphProperties['fo:margin-right'] = $marginRight . 'in';
             }
             
             if (!empty($style->getAlignment())) {
-                $xmlWriter->writeAttribute('fo:text-align', $style->getAlignment());
+                $paragraphProperties['fo:text-align'] = $style->getAlignment();
             }
 
             if ($style->getLineHeight() !== null) {
-                $xmlWriter->writeAttribute('fo:line-height', $style->getLineHeight() . '%');
+                $paragraphProperties['fo:line-height'] = $style->getLineHeight() . '%';
             }
 
             if ($style->isJustifySingleWord() !== null) {
-                $xmlWriter->writeAttribute('style:justify-single-word', $style->isJustifySingleWord() ? 'true' : 'false');
+                $paragraphProperties['style:justify-single-word'] = $style->isJustifySingleWord() ? 'true' : 'false';
             }
 
             if ($style->isKeepNext() !== null) {
-                $xmlWriter->writeAttribute('fo:keep-with-next', $style->isKeepNext() === true ? 'always' : 'auto');
+                $paragraphProperties['fo:keep-with-next'] = $style->isKeepNext() === true ? 'always' : 'auto';
             }
 
             if ($style->isKeepLines() !== null) {
-                $xmlWriter->writeAttribute('fo:keep-together', $style->isKeepLines() === false ? 'always' : 'auto');
+                $paragraphProperties['fo:keep-together'] = $style->isKeepLines() === false ? 'always' : 'auto';
             }
 
             if ($style->getHyphenationLadderCount() !== null) {
-                $xmlWriter->writeAttribute('fo:hyphenation-ladder-count', $style->getHyphenationLadderCount());
+                $paragraphProperties['fo:hyphenation-ladder-count'] = $style->getHyphenationLadderCount();
             }
 
             if ($style->getIndent() !== null) {
-                $xmlWriter->writeAttribute('fo:text-indent', Converter::twipToInch($style->getIndent()) . 'in');
+                $paragraphProperties['fo:text-indent'] = Converter::twipToInch($style->getIndent()) . 'in';
             }
 
             if ($style->getBreakPosition() !== Style\Paragraph::BREAK_POSITION_UNSET) {
-                $attributeName = 'fo:break-' . $style->getBreakPosition();
-
-                $xmlWriter->writeAttribute($attributeName, $style->getBreakKind());
+                $paragraphProperties['fo:break-' . $style->getBreakPosition()] = $style->getBreakKind();
 
                 if ($style->getBreakKind() === Style\Paragraph::BREAK_KIND_PAGE && $style->getPageNumber() !== null) {
-                    $xmlWriter->writeAttribute('style:page-number', $style->getPageNumber());
+                    $paragraphProperties['style:page-number'] = $style->getPageNumber();
                 }
             }
 
             if ($style->getBackgroundColor() !== null) {
-                $xmlWriter->writeAttribute('fo:background-color', '#' . $style->getBackgroundColor());
+                $paragraphProperties['fo:background-color'] = '#' . $style->getBackgroundColor();
             }
 
-            $this->writePaddingAttributes($xmlWriter, $style);
-
-            $this->writeBorderAttributes($xmlWriter, $style);
+            $paddingAttributes = $this->getPaddingXMLAttributes($style);
+            if (count($paddingAttributes) > 0) {
+                $paragraphProperties = array_merge($paragraphProperties, $paddingAttributes);
+            }
+            
+            $borderAttributes = $this->getBorderXMLAttributes($style);
+            if (count($borderAttributes) > 0) {
+                $paragraphProperties = array_merge($paragraphProperties, $borderAttributes);
+            }
 
             // TODO: style:auto-text-indent
             // style:auto-text-indent="true"
@@ -135,13 +140,25 @@ class Paragraph extends AbstractStyle
 
             // fo:border="0.06pt solid #000000"
         }
-
-        $this->writeTabs($xmlWriter, $style->getTabs());
-
+        
         //Right to left
-        $xmlWriter->writeAttributeIf($style->isBidi(), 'style:writing-mode', 'rl-tb');
+        if ($style->isBidi() !== null && $style->isBidi()) {
+            $paragraphProperties['style:writing-mode'] = 'rl-tb';
+        }
+        
+        $tabs = $style->getTabs();
+        
+        if (count($paragraphProperties) > 0 || count($tabs) > 0) {
+            $xmlWriter->startElement('style:paragraph-properties');
 
-        $xmlWriter->endElement(); //style:paragraph-properties
+            foreach ($paragraphProperties as $attributeName => $attributeValue) {
+                $xmlWriter->writeAttribute($attributeName, $attributeValue);
+            }
+            
+            $this->writeTabs($xmlWriter, $tabs);
+            
+            $xmlWriter->endElement(); // style:paragraph-properties
+        }
 
         if ($style->getFont()) {
             $writer = new ODTWriter\Style\Font($this->phpWord, $xmlWriter, $style->getFont());

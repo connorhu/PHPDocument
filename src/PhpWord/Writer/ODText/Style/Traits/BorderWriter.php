@@ -26,6 +26,56 @@ use PhpOffice\PhpWord\Style\Paragraph;
  */
 trait BorderWriter
 {
+    private function getBorderXMLAttributes(Paragraph $style) : array
+    {
+        if (!$style->hasBorder()) {
+            return [];
+        }
+        
+        $attributes = [];
+        
+        $borderSizes = $style->getBorderSize();
+        $uniqBorderSizes = array_unique($borderSizes);
+        $numberOfSizes = count($uniqBorderSizes);
+
+        $borderStyles = $style->getBorderStyle();
+        $uniqBorderStyles = array_unique($borderStyles);
+        $numberOfStyles = count($uniqBorderStyles);
+
+        $borderColors = $style->getBorderColor();
+        $uniqBorderColors = array_unique($borderColors);
+        $numberOfColors = count($uniqBorderColors);
+
+        if ($numberOfColors + $numberOfStyles + $numberOfSizes <= 3) {
+            $size = array_shift($uniqBorderSizes);
+            $style = array_shift($uniqBorderStyles);
+            $color = array_shift($uniqBorderColors);
+            $attributes['fo:border'] = $this->getBorderXMLAttributeValue($size, $style, $color);
+        } else {
+            static $suffixes = array(
+                '-top',
+                '-left',
+                '-right',
+                '-bottom',
+            );
+
+            foreach ($style->getBorderSize() as $key => $size) {
+                $style = $borderStyles[$key];
+                $color = $borderColors[$key];
+                
+                $attributes['fo:border'.$suffixes[$key]] = $this->getBorderXMLAttributeValue($size, $style, $color);
+            }
+        }
+        
+        return $attributes;
+    }
+    
+    private function getBorderXMLAttributeValue(?string $size, ?string $style, ?string $color)
+    {
+        $size = Converter::twipToPt($size) . 'pt';
+        return $size . ' ' . ($style === null ? 'solid' : $style) . ' ' . ($color === null ? '#000000' : ('#' . $color));
+    }
+    
     /**
      * Write style.
      */

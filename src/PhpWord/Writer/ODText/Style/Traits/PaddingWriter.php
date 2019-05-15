@@ -26,10 +26,36 @@ use PhpOffice\PhpWord\Style\Paragraph;
  */
 trait PaddingWriter
 {
+    private function getPaddingXMLAttributes(Paragraph $style) : array
+    {
+        $attributes = [];
+        if ($style->getPadding() !== null) {
+            $attributes['fo:padding'] = Converter::twipToInch($style->getPadding()) . 'in';
+        }
+
+        if ($style->getPaddingLeft() !== null) {
+            $attributes['fo:padding-left'] = Converter::twipToInch($style->getPaddingLeft()) . 'in';
+        }
+
+        if ($style->getPaddingRight() !== null) {
+            $attributes['fo:padding-right'] = Converter::twipToInch($style->getPaddingRight()) . 'in';
+        }
+
+        if ($style->getPaddingTop() !== null) {
+            $attributes['fo:padding-top'] = Converter::twipToInch($style->getPaddingTop()) . 'in';
+        }
+
+        if ($style->getPaddingBottom() !== null) {
+            $attributes['fo:padding-bottom'] = Converter::twipToInch($style->getPaddingBottom()) . 'in';
+        }
+        
+        return $attributes;
+    }
+    
     /**
      * Write style.
      */
-    public function writePaddingAttributes(XMLWriter $writer, Paragraph $style)
+    private function writePaddingAttributes(XMLWriter $writer, Paragraph $style)
     {
         if ($style->getPadding() !== null) {
             $value = Converter::twipToInch($style->getPadding()) . 'in';
