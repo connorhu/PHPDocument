@@ -39,6 +39,13 @@ class StyleBag implements Countable, Iterator
     private $styles = array();
 
     /**
+     * Style names
+     *
+     * @var array
+     */
+    private $styleNames = array();
+
+    /**
      * Add paragraph style
      *
      * @param string $styleName
