@@ -39,12 +39,12 @@ class ODText extends AbstractReader implements ReaderInterface
         $relationships = $this->readRelationships($docFile);
 
         $readerParts = array(
-            'content.xml' => 'Content',
-            'meta.xml'    => 'Meta',
+            'content.xml' => ODText\Content::class,
+            'meta.xml'    => ODText\Meta::class,
         );
 
-        foreach ($readerParts as $xmlFile => $partName) {
-            $this->readPart($phpWord, $relationships, $partName, $docFile, $xmlFile);
+        foreach ($readerParts as $xmlFile => $partReaderClass) {
+            $this->readPart($document, $relationships, $partReaderClass, $docFile, $xmlFile);
         }
 
         return $document;
@@ -55,19 +55,16 @@ class ODText extends AbstractReader implements ReaderInterface
      *
      * @param \PhpOffice\PhpDocument\Document $phpWord
      * @param array $relationships
-     * @param string $partName
+     * @param string $partReaderClass
      * @param string $docFile
      * @param string $xmlFile
      */
-    private function readPart(Document $document, array $relationships, string $partName, string $docFile, string $xmlFile)
+    private function readPart(Document $document, array $relationships, string $partReaderClass, string $docFile, string $xmlFile)
     {
-        $partClass = "PhpOffice\\PhpWord\\Reader\\ODText\\{$partName}";
-        if (class_exists($partClass)) {
-            /** @var \PhpOffice\PhpWord\Reader\ODText\AbstractPart $part Type hint */
-            $part = new $partClass($docFile, $xmlFile);
-            $part->setRels($relationships);
-            $part->read($phpWord);
-        }
+        /** @var \PhpOffice\PhpWord\Reader\ODText\AbstractPart $part Type hint */
+        $part = new $partReaderClass($docFile, $xmlFile);
+        $part->setRels($relationships);
+        $part->read($document);
     }
 
     /**
