@@ -80,7 +80,9 @@ class Text extends AbstractElement
                     $xmlWriter->writeAttribute('text:style-name', $fontStyle);
                 }
                 $this->writeChangeInsertion(true, $element->getTrackChange());
-                $this->writeText($element->getText());
+                $content = $element->getText();
+                $content = str_replace(["\t", "\n"], ['<text:tab/>', '<text:line-break/>'], $content);
+                $this->writeText($content);
                 $this->writeChangeInsertion(false, $element->getTrackChange());
                 $xmlWriter->endElement();
             }
